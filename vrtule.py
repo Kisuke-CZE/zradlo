@@ -20,6 +20,7 @@ def return_menu():
 	for item in vrt.split("\n"):
 		#([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)
 		a = re.match("\s+?([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
+		c = re.match("\s+?\s+(.*?)\s+([0-9]+\s+Kč)", item) # polivky
 		b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s+[0-9]+\.\s+[0-9]+)", item)
 		if a is not None:
 			print(a.group(1), a.group(2), a.group(3))
@@ -30,6 +31,11 @@ def return_menu():
 			#jidla.append(["{0}{1}".format(a.group(1), a.group(2))], a.group(3))
 		elif b is not None:
 			date = b.group(1)
+		elif c is not None:
+			gramaz = ""
+			jidlo = c.group(1)
+			cena = c.group(2)
+			jidla.append([jidlo, cena, gramaz])
 		else:
 			pass
 
@@ -48,7 +54,7 @@ def result():
 		return("Chyba", ["", "", ""])
 
 if __name__ == "__main__":
-	date = return_date()
+	#date = return_date()
 	menu_list = return_menu()
 	print(menu_list)
 

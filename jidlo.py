@@ -17,6 +17,7 @@ def home():
     a = kantyna() or ["", ""]
     b = chutpoint() or ["", ""]
     c = vrtule() or ["", ""]
+    print("menu2 = {0}".format(a))
     return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), 
     	date=a[0],
     	menu=a[1],
