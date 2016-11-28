@@ -28,7 +28,8 @@ def return_menu(soup):
 			match = re.match("(.*?)([0-9]{2,3}\s+Kč)", text)
 			if match is not None:
 				arr = [match.group(1).strip(), match.group(2).strip()]
-			
+			else:
+				continue
 			items.append(arr)
 	return items
 
