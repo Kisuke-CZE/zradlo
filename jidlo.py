@@ -18,10 +18,26 @@ app.config["STATIC_FOLDER"] = "static"
 
 @app.route("/", methods=["GET"])
 def home():
-    a = kantyna() or ["", ""]
-    b = kozlovna() or ["", ""]
-    c = vrtule() or ["", ""]
-    d = kolkovna() or ["", ""]
+    try:
+        a = kantyna() or ["", ""]
+    except:
+        a = ["", ""]
+
+    try:
+        b = kozlovna() or ["", ""]
+    except:
+        b = ["", ""]
+
+    try:
+        c = vrtule() or ["", ""]
+    except:
+        c = ["", ""]
+
+    try:
+        d = kolkovna() or ["", ""]
+    except:
+        d = ["", ""]
+
     return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), 
     	date=a[0],
     	menu=a[1],
