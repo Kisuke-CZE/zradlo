@@ -5,18 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>Jídlo</title>
-    
     <script type="text/javascript" src="/static/jquery-latest.js"></script> 
-    <script type="text/javascript" src="/static/jquery.tablesorter.js"></script> 
+    <script type="text/javascript" src="/static/stupidtable.js"></script> 
     <script>    
-        $(document).ready(function() 
-        { 
-            $(".kantyna").tablesorter(); 
-        } 
-    ); 
+
     </script>
 </head>
-<body>
+<body onload="lol();">
     <div class="jumbotron" style="height: 240px;/* background-image: url('http://lorempixel.com/1000/800/food/'); background-size: cover;background-position: center center, center center;*/">
         <div class="container">
             <h1>{{dnesni_datum}}</h1>
@@ -26,12 +21,15 @@
         <div class="row">
             <div class="col-lg-6">
                 <h2><a href="http://www.manihi.cz/zavodni-stravovani-kantyna/kantyna-rosmarin-business-center/denni-menu/">Kantýna</a></h2>
-                Datum: {%- if date is not none -%}{{ " " + date.upper() }}{% endif %}
+                <p>Datum: {%- if date is not none -%}{{ " " + date.upper() }}{% endif %}</p>
                 <table class="table table-striped" id="kantyna">
                   <thead>
-                        <td style="font-weight:bold;">Jídlo</td>
-                        <td style="font-weight:bold;">Cena</td>
+                        <tr>
+                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
+                        <th data-sort="int" style="font-weight:bold;">Cena</th>
+                        </tr>
                     </thead>
+                    <tbody>
                     {% for i in menu %}
                      <tr>
                         <td>{{i.0}}</td>
@@ -39,36 +37,40 @@
                         <!--<td>{{i.2}}</td>-->
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>          
             </div>
            <div class="col-lg-6">
-                <h2><a href="http://www.chutpoint.cz/denni-nabidka/">Chuťpoint</a></h2>
-                Datum: {%- if date2 is not none -%}{{ " " + date2.upper() }}{% endif %}
+                <h2><a href="http://www.holesovickakozlovna.cz">Holešovická Kozlovna</a></h2>
+                <p>Datum: {%- if date2 is not none -%}{{ " " + date2.upper() }}{% endif %}</p>
                 <table class="table table-striped" id="kantyna">
                   <thead>
-                        <td style="font-weight:bold;">Jídlo</td>
-                        <td style="font-weight:bold;">Cena</td>
+                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
+                        <th data-sort="int" style="font-weight:bold;">Cena</th>
                     </thead>
+                    <tbody>
                     {% for i in menu2 %}
                      <tr>
                         <td>{{i.0}}</td>
                         <td>{{i.1}} Kč  </td> 
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>          
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
                 <h2><a href="http://uvrtulejidelna.webnode.cz/sluzby/">Vrtule</a></h2>
-                TODO: Polívky
-                Datum: {%- if date3 is not none -%}{{ " " + date3.upper() }}{% endif %}
+                TODO: Hlavní menu<br>
+                <p>Datum: {%- if date3 is not none -%}{{ " " + date3.upper() }}{% endif %}</p>
                 <table class="table table-striped" id="kantyna">
                   <thead>
-                        <td style="font-weight:bold;">Jídlo</td>
-                        <td style="font-weight:bold;">Cena</td>
+                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
+                        <th data-sort="int" style="font-weight:bold;">Cena</th>
                         <td style="font-weight:bold;">Gramáž</td>
                     </thead>
+                    <tbody>
                     {% for i in menu3 %}
                      <tr>
                         <td>{{i.0}}</td>
@@ -76,9 +78,29 @@
                         <td>{{i.2}}</td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>          
             </div>
-        </div>
+        
+        <div class="col-lg-6">
+                <h2><a href="http://www.kolkovna.cz/cs/kolkovna-argentinska-23/denni-menu/">Kolkovna</a></h2>
+                <p>Datum: {%- if date4 is not none -%}{{ " " + date4.upper() }}{% endif %}</p>
+                <table class="table table-striped" id="kantyna">
+                  <thead>
+                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
+                        <th data-sort="int" style="font-weight:bold;">Cena</th>
+                    </thead>
+                    <tbody>
+                    {% for i in menu4 %}
+                     <tr>
+                        <td>{{i.0}}</td>
+                        <td>{{i.1}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>          
+            </div>
+         </div>
     </div>
 
 </body>
