@@ -8,6 +8,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js">
     <script>
         $(document).ready(function() {
         $('[data-toggle=offcanvas]').click(function() {
@@ -78,11 +79,22 @@
     <script>
         function lol()
         {
-        $('body').scrollspy({
-            target: '.active',
-            offset: 40
-        });
+            $('body').scrollspy({
+                target: '.active',
+                offset: 40
+            });
+
+            $( ".sidebarlink" ).click({param1: this}, blikejvoe);
+
+            function blikejvoe(event)
+            {
+                console.log("listek" + event.target.id.split("_")[1]);
+                console.log($("listek" + event.target.id.split("_")[1]));
+                $(".listek" + event.target.id.split("_")[1]).effect("highlight", {color: "#4E88FF"}, 2000);
+
+            }
         }
+       
     </script>
 </head>
 <body onload="lol();">
@@ -103,9 +115,9 @@
            </button>
             <div class="col-xs-3 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
                 <ul class="nav">
-                {% for i in nazvy %}
+                 {% for i in range(0, nazvy|length) %}
                     <li>
-                        <a href="#{{i}}">{{i}}</a>
+                        <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{i}}">{{nazvy[i]}}</a>
                     </li>
                 {% endfor %}
                 </ul>
@@ -113,7 +125,7 @@
             <div class="col-xs-9 col-sm-9">
             {% for i in range(0, jidla|length) %}
                 {%- if i%2 -%}<div class="row group"> {% endif %}
-                <div class="col-lg-6 listek">
+                <div class="col-lg-6 listek{{i}}">
                     <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
                     <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
                     <table class="table table-striped">
