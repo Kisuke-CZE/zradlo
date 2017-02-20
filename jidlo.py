@@ -5,6 +5,7 @@ from flask import request
 from flask import jsonify
 from datetime import datetime
 import importlib
+from flask.ext.cache import Cache
 
 #import locale
 #locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
@@ -14,14 +15,18 @@ import importlib
 #from vrtule import result as vrtule # VRTULE
 #from kolkovna import result as kolkovna # KOLKOVNA
 
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+
 modules = ["kantyna", "kozlovna", "vrtule", "kolkovna", "pinta"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
 app = Flask(__name__)
 app.config["STATIC_FOLDER"] = "static"
+cache.init_app(app)
 
 @app.route("/", methods=["GET"])
+@cache.cached(timeout=720)
 def home():
     nazvy = []
     urlka = []
@@ -36,7 +41,7 @@ def home():
         datumy.append(datum)
     print("Importing:", nazvy, urlka, jidla, datumy)
 
-    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), nazvy=nazvy, urlka=nazvy, jidla=jidla, datumy=datumy)
+    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), nazvy=nazvy, urlka=urlka, jidla=jidla, datumy=datumy)
 
 
 if __name__ == "__main__":

@@ -15,12 +15,12 @@ def get_file():
 
 def prepare_bs(kantyna):
     if kantyna is not None and kantyna.status_code == 200:
-        html = kantyna.text
-        soup = BeautifulSoup(html, 'html.parser')
+        html = kantyna.content
+        soup = BeautifulSoup(html.decode('utf-8', 'ignore'), 'html.parser')
         return soup
 
     else:
-        return "Error"
+        return None
 
 def return_menu(soup):
     a = soup.find("div", { "class": "dailyMenu" })
