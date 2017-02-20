@@ -4,50 +4,40 @@ from flask import render_template
 from flask import request
 from flask import jsonify
 from datetime import datetime
+import importlib
 
-import locale
-locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
+#import locale
+#locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
-from kantyna import result as kantyna # KANTYNA
-from kozlovna import result as kozlovna # KOZLOVNA
-from vrtule import result as vrtule # VRTULE
-from kolkovna import result as kolkovna # KOLKOVNA
+#from kantyna import result as kantyna # KANTYNA
+#from kozlovna import result as kozlovna # KOZLOVNA
+#from vrtule import result as vrtule # VRTULE
+#from kolkovna import result as kolkovna # KOLKOVNA
 
+modules = ["kantyna", "kozlovna", "vrtule", "kolkovna"]
+imported = []
+for i in modules:
+    imported.append(importlib.import_module(i, __name__))
 app = Flask(__name__)
 app.config["STATIC_FOLDER"] = "static"
 
 @app.route("/", methods=["GET"])
 def home():
-    try:
-        a = kantyna() or ["", ""]
-    except:
-        a = ["", ""]
+    nazvy = []
+    urlka = []
+    jidla = []
+    datumy = []
 
-    try:
-        b = kozlovna() or ["", ""]
-    except:
-        b = ["", ""]
+    for y in imported:
+        nazev, url, datum, jidlo = y.result()
+        nazvy.append(nazev)
+        urlka.append(url)
+        jidla.append(jidlo)
+        datumy.append(datum)
+    print("Importing:", nazvy, urlka, jidla, datumy)
 
-    try:
-        c = vrtule() or ["", ""]
-    except:
-        c = ["", ""]
+    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), nazvy=nazvy, urlka=nazvy, jidla=jidla, datumy=datumy)
 
-    try:
-        d = kolkovna() or ["", ""]
-    except:
-        d = ["", ""]
-
-    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), 
-    	date=a[0],
-    	menu=a[1],
-    	date2=b[0],
-    	menu2=b[1],
-    	date3=c[0],
-    	menu3=c[1],
-        date4=d[0],
-        menu4=d[1],
-        )
 
 if __name__ == "__main__":
     app.run(debug=True)

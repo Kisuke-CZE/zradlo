@@ -5,102 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>Jídlo</title>
-    <script type="text/javascript" src="/static/jquery-latest.js"></script> 
-    <script type="text/javascript" src="/static/stupidtable.js"></script> 
-    <script>    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="/static/stupidtable.js"></script>-->
+    <style>
+        /* shamelessly ripped from https://jsfiddle.net/gableroux/S2SMK/ */
+        /* TBD: FIX position, FIX tables */
+        .fixed {
+            position: fixed;
+        }
 
+        /* sidebar */
+        .bs-docs-sidebar {
+            padding-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* all links */
+        .bs-docs-sidebar .nav>li>a {
+            color: #999;
+            border-left: 2px solid transparent;
+            padding: 4px 20px;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        /* nested links */
+        .bs-docs-sidebar .nav .nav>li>a {
+            padding-top: 1px;
+            padding-bottom: 1px;
+            padding-left: 30px;
+            font-size: 12px;
+        }
+
+        /* active & hover links */
+        .bs-docs-sidebar .nav>.active>a,
+        .bs-docs-sidebar .nav>li>a:hover,
+        .bs-docs-sidebar .nav>li>a:focus {
+            color: #131357;
+            text-decoration: none;
+            background-color: transparent;
+            border-left-color: #131357;
+        }
+        /* all active links */
+        .bs-docs-sidebar .nav>.active>a,
+        .bs-docs-sidebar .nav>.active:hover>a,
+        .bs-docs-sidebar .nav>.active:focus>a {
+            font-weight: 700;
+        }
+        /* nested active links */
+        .bs-docs-sidebar .nav .nav>.active>a,
+        .bs-docs-sidebar .nav .nav>.active:hover>a,
+        .bs-docs-sidebar .nav .nav>.active:focus>a {
+            font-weight: 500;
+        }
+
+        /* hide inactive nested list */
+        .bs-docs-sidebar .nav ul.nav {
+            display: none;
+        }
+        /* show active nested list */
+        .bs-docs-sidebar .nav>.active>ul.nav {
+            display: block;
+        }
+        .listek a
+        {
+            color: #131357;
+        }
+
+    </style>
+
+    <script>
+        function lol()
+        {
+        $('body').scrollspy({
+            target: '.bs-docs-sidebar',
+            offset: 40
+        });
+        }
     </script>
 </head>
 <body onload="lol();">
-    <div class="jumbotron" style="height: 210px;/* background-image: url('http://lorempixel.com/1000/800/food/'); background-size: cover;background-position: center center, center center;*/">
+    <div id="datum" class="jumbotron group" style="background-color: #131357; height: 210px; color:#fafafa;">
         <div class="container">
             <h1>{{dnesni_datum}}</h1>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <h2><a href="http://www.manihi.cz/zavodni-stravovani-kantyna/kantyna-rosmarin-business-center/denni-menu/">Kantýna</a></h2>
-                <p>Datum: {%- if date is not none -%}{{ " " + date.upper() }}{% endif %}</p>
-                <table class="table table-striped" id="kantyna">
+    <nav class=" bs-docs-sidebar hidden-sm-down " style="max-height: 1vh; min-width: 200px;">
+        <ul id="sidebar" class="nav nav-stacked  ">
+            <li>
+                <a href="#datum"><strong>Header</strong></a>
+            </li>
+
+             {% for i in nazvy %}
+            <li>
+                <a href="#{{i}}">{{i}}</a>
+            </li>
+
+             {% endfor %}
+        </ul>
+
+    </nav>
+
+
+    <div class="container" style="color:rgb(22,22,22);">
+
+        {% for i in range(0, jidla|length) %}
+            {%- if i%2 -%}<div class="row group"> {% endif %}
+            <div class="col-lg-6 listek">
+                <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
+                <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
+                <table class="table table-striped">
                   <thead>
                         <tr>
-                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
-                        <th data-sort="int" style="font-weight:bold;">Cena</th>
+                        <th data-sort="str" style="font-weight:bold;" width="88%">Jídlo</th>
+                        <th data-sort="int" style="font-weight:bold;" width="12%">Cena</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for i in menu %}
-                     <tr>
-                        <td>{{i.0}}</td>
-                        <td>{{i.1}}</td>
-                        <!--<td>{{i.2}}</td>-->
-                    </tr>
-                    {% endfor %}
+                        {% for y in jidla[i] %}
+                         <tr>
+                            <td>{{y.0}}</td>
+                            <td>{{y.1}}</td>
+                            <!--<td>{{i.2}}</td>-->
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>          
             </div>
-           <div class="col-lg-6">
-                <h2><a href="http://www.holesovickakozlovna.cz">Holešovická Kozlovna</a></h2>
-                <p>Datum: {%- if date2 is not none -%}{{ " " + date2.upper() }}{% endif %}</p>
-                <table class="table table-striped" id="kantyna">
-                  <thead>
-                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
-                        <th data-sort="int" style="font-weight:bold;">Cena</th>
-                    </thead>
-                    <tbody>
-                    {% for i in menu2 %}
-                     <tr>
-                        <td>{{i.0}}</td>
-                        <td>{{i.1}} Kč  </td> 
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>          
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <h2><a href="http://uvrtulejidelna.webnode.cz/sluzby/">Vrtule</a></h2>
-                TODO: Hlavní menu<br>
-                <p>Datum: {%- if date3 is not none -%}{{ " " + date3.upper() }}{% endif %}</p>
-                <table class="table table-striped" id="kantyna">
-                  <thead>
-                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
-                        <th data-sort="int" style="font-weight:bold;">Cena</th>
-                        <td style="font-weight:bold;">Gramáž</td>
-                    </thead>
-                    <tbody>
-                    {% for i in menu3 %}
-                     <tr>
-                        <td>{{i.0}}</td>
-                        <td>{{i.1}}</td>
-                        <td>{{i.2}}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>          
-            </div>
-        
-        <div class="col-lg-6">
-                <h2><a href="http://www.kolkovna.cz/cs/kolkovna-argentinska-23/denni-menu/">Kolkovna</a></h2>
-                <p>Datum: {%- if date4 is not none -%}{{ " " + date4.upper() }}{% endif %}</p>
-                <table class="table table-striped" id="kantyna">
-                  <thead>
-                        <th data-sort="str" style="font-weight:bold;">Jídlo</th>
-                        <th data-sort="int" style="font-weight:bold;">Cena</th>
-                    </thead>
-                    <tbody>
-                    {% for i in menu4 %}
-                     <tr>
-                        <td>{{i.0}}</td>
-                        <td>{{i.1}}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>          
-            </div>
-         </div>
+            {%- if i%2 -%}</div> {% endif %}
+
+        {% endfor %}
     </div>
 
 </body>
