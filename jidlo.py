@@ -26,7 +26,7 @@ app.config["STATIC_FOLDER"] = "static"
 cache.init_app(app)
 
 @app.route("/", methods=["GET"])
-@cache.cached(timeout=720)
+@cache.cached(timeout=15)
 def home():
     nazvy = []
     urlka = []

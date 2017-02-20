@@ -42,7 +42,9 @@ def return_menu(soup):
 
 def return_date(soup):
     b = soup.find_all("div", { "class": "widget widgetWysiwyg clearfix" })
-    return(b[0].find_all("p")[0].text)
+    b = b[0].find_all("p")[0].text
+    b = b.replace("DENNÍ NABÍDKA ", "")
+    return(b)
 
 def debug_print(date, menu):
     print(date)
