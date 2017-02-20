@@ -7,42 +7,137 @@
     <title>Jídlo</title>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+        $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+        });
+        });
+    </script>
     <!-- <script type="text/javascript" src="/static/stupidtable.js"></script>-->
+    <style>
+        #sidebar
+        {
+            height: 100%;
+            padding-right: 0;
+            padding-top: 20px;
+        }
+        #sidebar .nav 
+        {
+            width: 97%;
+        }
+        #sidebar li 
+        {
+            border:0 #f2f2f2 solid;
+            border-bottom-width:1px;
+        }
+        /* collapsed sidebar styles */
+        @media screen and (max-width: 767px) 
+        {
+            .row-offcanvas 
+            {
+                position: relative;
+                -webkit-transition: all 0.25s ease-out;
+                -moz-transition: all 0.25s ease-out;
+                transition: all 0.25s ease-out;
+            }
+
+            .row-offcanvas-right
+            .sidebar-offcanvas 
+            {
+                right: -38.6%;
+            }
+
+            .row-offcanvas-left
+            .sidebar-offcanvas 
+            {
+                left: -38.6%;
+            }
+            .row-offcanvas-right.active 
+            {
+                right: 38.6%;
+            }
+            .row-offcanvas-left.active 
+            {
+                left: 38.6%;
+            }
+            .sidebar-offcanvas 
+            {
+                position: absolute;
+                top: 0;
+                width: 38.6%;
+            }
+            #sidebar 
+            {
+                padding-top:0;
+            }
+    }
+
+    </style>   
+    <script>
+        function lol()
+        {
+        $('body').scrollspy({
+            target: '.active',
+            offset: 40
+        });
+        }
+    </script>
 </head>
 <body onload="lol();">
-    <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color:#000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 52px;">
-        <div class="container">
+    <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color:#000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;">
+        <div class="container-fluid" style="padding-left: 5px">
             <h1>{{dnesni_datum}}</h1>
+
+            
         </div>
     </div>
-    <div class="container" style="color:rgb(22,22,22);">
-
-        {% for i in range(0, jidla|length) %}
-            {%- if i%2 -%}<div class="row group"> {% endif %}
-            <div class="col-lg-6 listek">
-                <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
-                <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
-                <table class="table table-striped">
-                  <thead>
-                        <tr>
-                        <th data-sort="str" style="font-weight:bold;" width="88%">Jídlo</th>
-                        <th data-sort="int" style="font-weight:bold;" width="12%">Cena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for y in jidla[i] %}
-                         <tr>
-                            <td>{{y.0}}</td>
-                            <td>{{y.1}}</td>
-                            <!--<td>{{i.2}}</td>-->
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>          
+    <div class="container-fluid" style="color:rgb(22,22,22);">
+       <div class="row row-offcanvas row-offcanvas-left">
+        <!-- sidebar -->
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+            <div class="col-xs-3 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                <ul class="nav">
+                {% for i in nazvy %}
+                    <li>
+                        <a href="#{{i}}">{{i}}</a>
+                    </li>
+                {% endfor %}
+                </ul>
             </div>
-            {%- if i%2 -%}</div> {% endif %}
+            <div class="col-xs-9 col-sm-9">
+            {% for i in range(0, jidla|length) %}
+                {%- if i%2 -%}<div class="row group"> {% endif %}
+                <div class="col-lg-6 listek">
+                    <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
+                    <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
+                    <table class="table table-striped">
+                      <thead>
+                            <tr>
+                            <th data-sort="str" style="font-weight:bold;" width="88%">Jídlo</th>
+                            <th data-sort="int" style="font-weight:bold;" width="12%">Cena</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for y in jidla[i] %}
+                             <tr>
+                                <td>{{y.0}}</td>
+                                <td>{{y.1}}</td>
+                                <!--<td>{{i.2}}</td>-->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>          
+                </div>
+                {%- if i%2 -%}</div> {% endif %}
 
-        {% endfor %}
+            {% endfor %}
+            </div>
+    </div>
     </div>
 
 </body>

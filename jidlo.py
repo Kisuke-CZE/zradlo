@@ -9,7 +9,7 @@ import importlib
 #import locale
 #locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
-#from kantyna import result as kantyna # KANTYNA
+#from kantyna import result as kantyna # KANTYNA 
 #from kozlovna import result as kozlovna # KOZLOVNA
 #from vrtule import result as vrtule # VRTULE
 #from kolkovna import result as kolkovna # KOLKOVNA
