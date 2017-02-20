@@ -14,7 +14,7 @@ import importlib
 #from vrtule import result as vrtule # VRTULE
 #from kolkovna import result as kolkovna # KOLKOVNA
 
-modules = ["kantyna", "kozlovna", "vrtule", "kolkovna"]
+modules = ["kantyna", "kozlovna", "vrtule", "kolkovna", "pinta"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
