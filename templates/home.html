@@ -137,7 +137,10 @@
 
             function blikejVoe(event)
             {
-                $(".listek" + event.target.id.split("_")[1]).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
+                var cislo = event.target.id.split("_")[1];
+                $(".listek" + cislo).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
+                Cookies.set("cbox_" + cislo, 1);// lol prase
+                $("#cbox_" + cislo).prop("checked", true);
             }
 
             function resetCookies() // lol prase
