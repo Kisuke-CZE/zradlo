@@ -8,83 +8,6 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <!-- <script type="text/javascript" src="/static/stupidtable.js"></script>-->
-    <style>
-        /* shamelessly ripped from https://jsfiddle.net/gableroux/S2SMK/ */
-        /* TBD: FIX position, FIX tables */
-        .fixed {
-            position: fixed;
-        }
-
-        /* sidebar */
-        .bs-docs-sidebar {
-            padding-left: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        /* all links */
-        .bs-docs-sidebar .nav>li>a {
-            color: #999;
-            border-left: 2px solid transparent;
-            padding: 4px 20px;
-            font-size: 13px;
-            font-weight: 400;
-        }
-
-        /* nested links */
-        .bs-docs-sidebar .nav .nav>li>a {
-            padding-top: 1px;
-            padding-bottom: 1px;
-            padding-left: 30px;
-            font-size: 12px;
-        }
-
-        /* active & hover links */
-        .bs-docs-sidebar .nav>.active>a,
-        .bs-docs-sidebar .nav>li>a:hover,
-        .bs-docs-sidebar .nav>li>a:focus {
-            color: #131357;
-            text-decoration: none;
-            background-color: transparent;
-            border-left-color: #131357;
-        }
-        /* all active links */
-        .bs-docs-sidebar .nav>.active>a,
-        .bs-docs-sidebar .nav>.active:hover>a,
-        .bs-docs-sidebar .nav>.active:focus>a {
-            font-weight: 700;
-        }
-        /* nested active links */
-        .bs-docs-sidebar .nav .nav>.active>a,
-        .bs-docs-sidebar .nav .nav>.active:hover>a,
-        .bs-docs-sidebar .nav .nav>.active:focus>a {
-            font-weight: 500;
-        }
-
-        /* hide inactive nested list */
-        .bs-docs-sidebar .nav ul.nav {
-            display: none;
-        }
-        /* show active nested list */
-        .bs-docs-sidebar .nav>.active>ul.nav {
-            display: block;
-        }
-        .listek a
-        {
-            color: #131357;
-        }
-
-    </style>
-
-    <script>
-        function lol()
-        {
-        $('body').scrollspy({
-            target: '.bs-docs-sidebar',
-            offset: 40
-        });
-        }
-    </script>
 </head>
 <body onload="lol();">
     <div id="datum" class="jumbotron group" style="background-color: #131357; height: 210px; color:#fafafa;">
@@ -92,23 +15,6 @@
             <h1>{{dnesni_datum}}</h1>
         </div>
     </div>
-    <nav class=" bs-docs-sidebar hidden-sm-down " style="max-height: 1vh; min-width: 200px;">
-        <ul id="sidebar" class="nav nav-stacked  ">
-            <li>
-                <a href="#datum"><strong>Header</strong></a>
-            </li>
-
-             {% for i in nazvy %}
-            <li>
-                <a href="#{{i}}">{{i}}</a>
-            </li>
-
-             {% endfor %}
-        </ul>
-
-    </nav>
-
-
     <div class="container" style="color:rgb(22,22,22);">
 
         {% for i in range(0, jidla|length) %}
