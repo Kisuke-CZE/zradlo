@@ -7,8 +7,8 @@ from datetime import datetime
 import importlib
 from flask.ext.cache import Cache
 
-#import locale
-#locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
+import locale
+locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
 #from kantyna import result as kantyna # KANTYNA 
 #from kozlovna import result as kozlovna # KOZLOVNA
@@ -17,7 +17,7 @@ from flask.ext.cache import Cache
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-modules = ["kantyna", "kozlovna", "vrtule", "kolkovna", "pinta"]
+modules = ["kantyna", "kozlovna", "vrtule", "kolkovna", "pinta", "uholise"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
@@ -26,7 +26,7 @@ app.config["STATIC_FOLDER"] = "static"
 cache.init_app(app)
 
 @app.route("/", methods=["GET"])
-@cache.cached(timeout=15)
+@cache.cached(timeout=720)
 def home():
     nazvy = []
     urlka = []
