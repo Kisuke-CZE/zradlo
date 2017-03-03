@@ -4,7 +4,7 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.restauraceuholise.cz/"
+    return "https://www.restu.cz/u-holise/denni-menu/"
 
 def get_name():
     return "U Holiše"
@@ -29,13 +29,18 @@ def return_menu(soup):
     #d = re.split(" Kč", c)
 
     #date = soup.find("div", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
-    date = soup.find_all("span", { "class":"datum" } )[0].text
-    container = soup.find_all("ul", {"class":"listFoods"})[0]
-    jidlo_obsah =  container.find_all("div", { "class":"cell food" } )
-    jidlo_cena =   container.find_all("div", { "class":"cell price" } )
+    #date = soup.find_all("span", { "class":"datum" } )[0].text 
+    date=""
+    container = soup.find_all("table", {"class":"menu-table"})
+
     arr = []
-    for i in range(0, len(jidlo_obsah)):
-        arr.append([jidlo_obsah[i].text.replace("\t",""), jidlo_cena[i].text.replace("\t","")])
+    for i in range(0, len(container)):
+        jidlo =  container[i].find_all("td")
+        jidlo_obsah = jidlo[0]
+        #jidlo_cena =   container[i].find_all("td", { "class":"menu-price" } )
+        jidlo_cena = jidlo[1]
+        arr.append([jidlo_obsah.text.replace("\t",""), jidlo_cena.text.replace("\t","")])
+   
         
         # jidlo_cena.append(jidlo_obsah[i].findNext("td").text)
       #  arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
