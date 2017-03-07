@@ -32,6 +32,7 @@
             height: 100%;
             padding-right: 0;
             padding-top: 20px;
+            z-index: 9999999;
             
         }
         #sidebar .nav 
@@ -90,14 +91,8 @@
     <script>
         function lol()
         {
-          /*  $('body').scrollspy({
-                target: '.active',
-                offset: 40
-            });*/
-
             $( ".sidebarlink" ).click({param1: this}, blikejVoe);
             $( "#resetcookieslink" ).click({param1: this}, resetCookies);
-
 
             $('.cbox').each(function( index ) 
                 {
@@ -157,11 +152,12 @@
     </script>
 </head>
 <body onload="lol();">
-    <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color:#000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;">
+   <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;">
         <div class="container-fluid">
-            <h1 style="margin-left: 20px !important;">{{dnesni_datum}}</h1>
-
-            
+                <div class="col-lg-6 col-md-6 col-sm-6 pull-left hidden-xs">
+                     <h1>{{dnesni_datum}}</h1>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-fluid" style="color:rgb(22,22,22);">
@@ -190,7 +186,7 @@
             <div class="col-md-8">
             {% for i in range(0, jidla|length) %}
                 {%- if i%2 -%}<div class="row group"> {% endif %}
-                <div class="col-lg-6 listek listek{{i}}">
+                <div class="col-lg-6 col-md-6 col-sm-6 listek listek{{i}}">
                     <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
                     <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
                     <table class="table">

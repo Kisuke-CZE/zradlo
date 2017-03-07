@@ -30,6 +30,12 @@ def return_menu(soup):
 
     #date = soup.find("div", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
     date = ""
+    try:
+        date = ""
+        date = soup.find_all("td", { "style":re.compile(r".*background: rgba(34, 15, 15, .30).*") } )[0].text
+        
+    except:
+        date = ""
     jidlo_obsah =  soup.find_all("td", { "style":re.compile(r".*width: 100%.*") } )
     jidlo_cena = []
     arr = []
@@ -41,8 +47,9 @@ def return_menu(soup):
                 print(a)
                 print(b)
                 arr.append([a, b])
-        except:
-            print("Err")
+        except Exception as ex:
+            print("Err" + str(ex))
+
 
         # jidlo_cena.append(jidlo_obsah[i].findNext("td").text)
       #  arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
