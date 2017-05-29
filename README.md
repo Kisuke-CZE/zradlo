@@ -50,7 +50,8 @@ Přidat VirtualHost do příslušného konfiguračního souboru (apache2.conf, h
 ```
 ### Kdo radsi pouziva nginx
 Do `/etc/uwsgi-emperor/vassals/zradlo.ini` neco takoveho:
-```[uwsgi]
+```
+[uwsgi]
 base = /var/www/zradlo
 chdir = %(base)
 module = jidlo:app
@@ -69,7 +70,8 @@ logto = /var/log/zradlo/zradlo.log
 ```
 
 A do virtualhostu:
-```server {
+```
+server {
     listen      80;
     server_name vase.domena.cz;
     charset     utf-8;
