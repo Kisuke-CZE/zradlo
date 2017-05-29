@@ -16,7 +16,7 @@ $ apt-get install libapache2-mod-wsgi
 ## Konfigurace
 ### Aplikace + spouštěcí wsgi soubor
 ```shell
-cd /var/www/ 
+cd /var/www/
 git clone https://github.com/chinese-soup/zradlo.git
 ```
 Ve složce /var/www/ vytvořit soubor wgsi, např. **jidelak.wgsi**
@@ -32,8 +32,7 @@ from jidlo import app as application # import app
 Přidat VirtualHost do příslušného konfiguračního souboru (apache2.conf, httpd.conf, sites-available/něco.conf, conf.d/něco.conf, atd.)
 ```apache
 <VirtualHost *:80>
-    ServerName jidlo.o2its.cz
-    ServerAlias jidlo.memer.top       
+    ServerName vase.domena.cz       
 
     WSGIDaemonProcess jidelak user=user1 group=group1 threads=5 # nastavit dle potreby!
     WSGIScriptAlias / /var/www/jidelak.wgsi # cesta k wgsi souboru
@@ -49,5 +48,37 @@ Přidat VirtualHost do příslušného konfiguračního souboru (apache2.conf, h
 </VirtualHost>
 
 ```
+### Kdo radsi pouziva nginx
+Do `/etc/uwsgi-emperor/vassals/zradlo.ini` neco takoveho:
+```[uwsgi]
+base = /var/www/zradlo
+chdir = %(base)
+module = jidlo:app
+home = %(base)/venv
 
+socket = /run/zradlo/zradlo.sock
+vacuum = true
+chmod-socket    = 660
 
+master = true
+processes = 1
+threads = 1
+
+plugins = python3
+logto = /var/log/zradlo/zradlo.log
+```
+
+A do virtualhostu:
+```server {
+    listen      80;
+    server_name vase.domena.cz;
+    charset     utf-8;
+    client_max_body_size 75M;
+
+    location / { try_files $uri @zradlo; }
+    location @zradlo {
+        include uwsgi_params;
+        uwsgi_pass unix:/run/zradlo/zradlo.sock;
+    }
+}
+```

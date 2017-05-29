@@ -26,7 +26,9 @@ def return_menu():
         #([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)
         a = re.match("\s+?([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
         c = re.match("\s+?\s+(.*?)\s+([0-9]+\s+Kč)", item) # polivky
-        b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s+[0-9]+\.\s+[0-9]+)", item)
+        # b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s+[0-9]+\.\s+[0-9]+)", item)
+        b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s?[0-9]+\s?\.\s?[0-9]+)", item)
+        d = re.match("([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
         if a is not None:
             print(a.group(1), a.group(2), a.group(3))
             gramaz = a.group(1)
@@ -40,6 +42,12 @@ def return_menu():
             gramaz = ""
             jidlo = c.group(1)
             cena = c.group(2)
+            jidla.append([jidlo, cena, gramaz])
+        elif d is not None:
+            print(d.group(1), d.group(2), d.group(3))
+            gramaz = d.group(1)
+            jidlo = d.group(2)
+            cena = d.group(3)
             jidla.append([jidlo, cena, gramaz])
         else:
             pass

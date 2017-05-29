@@ -6,3 +6,5 @@
 *.pyo
 *.idea*
 *.idea*/*
+venv
+venv/*

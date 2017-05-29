@@ -29,8 +29,9 @@ def return_menu(soup):
     #d = re.split(" Kč", c)
 
     #date = soup.find("div", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
-    #date = soup.find_all("span", { "class":"datum" } )[0].text 
-    date=""
+    #date = soup.find_all("span", { "class":"datum" } )[0].text
+    date = soup.find("h3").text
+    #date=""
     container = soup.find_all("table", {"class":"menu-table"})
 
     arr = []

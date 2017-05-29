@@ -28,14 +28,14 @@ def return_menu(soup):
     #c = b.findNext("p").text
     #d = re.split(" Kč", c)
 
-    #date = soup.find("div", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
-    date = ""
-    try:
-        date = ""
-        date = soup.find_all("td", { "style":re.compile(r".*background: rgba(34, 15, 15, .30).*") } )[0].text
+    date = soup.find("td", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
+    #date = ""
+    #try:
+        #date = ""
+    #    date = soup.find_all("td", { "style":re.compile(r".*background: rgba(34, 15, 15, .30).*") } )[0].text
         
-    except:
-        date = ""
+    #except:
+    #    date = ""
     jidlo_obsah =  soup.find_all("td", { "style":re.compile(r".*width: 100%.*") } )
     jidlo_cena = []
     arr = []

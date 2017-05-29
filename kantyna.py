@@ -4,7 +4,8 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.manihi.cz/zavodni-stravovani-kantyna/kantyna-rosmarin-business-center/denni-menu"
+    #return "http://www.manihi.cz/zavodni-stravovani-kantyna/kantyna-rosmarin-business-center/denni-menu"
+    return "http://www.manihi.cz/menu"
 
 def get_name():
     return "Kantýna"
@@ -22,7 +23,7 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    a = soup.find_all("div", { "class": "widget widgetWysiwyg clearfix" })[0].find_all("p")
+    a = soup.find_all("div", { "class": "text-content" })[2].find_all("p")
     print(a)
     items = []
     for item in a:
@@ -41,9 +42,11 @@ def return_menu(soup):
 
 
 def return_date(soup):
-    b = soup.find_all("div", { "class": "widget widgetWysiwyg clearfix" })
-    b = b[0].find_all("p")[0].text
-    b = b.replace("DENNÍ NABÍDKA ", "")
+    b = soup.find_all("div", { "class": "text-content" })
+    #print(b)
+    b = b[1].find_all('h3')[0].text
+    #b = b[0].h3.string
+    b = b.replace("Denní nabídka ", "")
     return(b)
 
 def debug_print(date, menu):
@@ -72,6 +75,6 @@ if __name__ == "__main__":
 
     date = return_date(bs)
     menu_list = return_menu(bs)
-    lol()
+    # lol()
 
     #debug_print(date, menu_list)
