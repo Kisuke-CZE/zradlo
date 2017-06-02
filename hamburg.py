@@ -32,7 +32,7 @@ def return_menu(soup):
     items = []
     published = False
     date = "???"
-    a = soup.find_all("tr")
+    a = soup.find_all("table")[0].find_all("tr")
     for item in a:
       # print(published)
       # print(str(item))
@@ -56,7 +56,7 @@ def return_menu(soup):
         cena = line[3].text.strip()
         arr = [nazev, cena]
         items.append(arr)
-    
+
 
     return(date, items)
 
