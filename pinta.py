@@ -33,7 +33,7 @@ def return_menu(soup):
     #try:
         #date = ""
     #    date = soup.find_all("td", { "style":re.compile(r".*background: rgba(34, 15, 15, .30).*") } )[0].text
-        
+
     #except:
     #    date = ""
     jidlo_obsah =  soup.find_all("td", { "style":re.compile(r".*width: 100%.*") } )
@@ -41,11 +41,13 @@ def return_menu(soup):
     arr = []
     for i in range(0, len(jidlo_obsah)):
         a = jidlo_obsah[i].text
+        if a == "Nápoj ZDARMA:":
+            break
         try:
             b = jidlo_obsah[i].findNext("td").text
             if a is not "":
-                print(a)
-                print(b)
+                #print(a)
+                #print(b)
                 arr.append([a, b])
         except Exception as ex:
             print("Err" + str(ex))
@@ -53,12 +55,12 @@ def return_menu(soup):
 
         # jidlo_cena.append(jidlo_obsah[i].findNext("td").text)
       #  arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
-        
+
     items = arr
 
 
-    print("ITEMS {0}".format(items))
-    print("DATE", date)
+    #print("ITEMS {0}".format(items))
+    #print("DATE", date)
     return(items, date)
 
 def result():
@@ -85,6 +87,6 @@ if __name__ == "__main__":
 
     #date = return_date(bs)
     menu_list = return_menu(bs)
-    print(menu_list)
+    #print(menu_list)
 
     #debug_print(date, menu_list)
