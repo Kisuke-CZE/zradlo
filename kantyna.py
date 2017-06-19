@@ -23,22 +23,23 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    #a = soup.find_all("div", { "class": "text-content" })[2].find_all("p")
-    a = soup.find_all("div", { "class": "text-content" })[2].find_all("strong")[1]
-    for br in a.find_all("br"):
-      br.replace_with("\n")
-    b = a.text.split('\n')
+    a = soup.find_all("div", { "class": "text-content" })[2].find_all("p")
+
+    #a = soup.find_all("div", { "class": "text-content" })[2].find_all("strong")[1]
+    #for br in a.find_all("br"):
+    #  br.replace_with("\n")
+    #b = a.text.split('\n')
 
     #print(a.text)
     items = []
-    #for item in a:
-    for item in b:
-        #if "CHCETE" not in item.text and "čipové" not in item.text and "2017" not in item.text:
-        if "CHCETE" not in item and "čipové" not in item and "2017" not in item:
+    for item in a:
+    #for item in b:
+        if "CHCETE" not in item.text and "čipové" not in item.text and "2017" not in item.text:
+        #if "CHCETE" not in item and "čipové" not in item and "2017" not in item:
             #print(item.text)
             #split = text.split("–")
-            #text = item.text
-            text = item
+            text = item.text
+            #text = item
             arr = []
             match = re.match("(.*?)([0-9]{2,3}\s+Kč)", text)
             if match is not None:
