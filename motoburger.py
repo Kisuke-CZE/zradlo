@@ -31,12 +31,12 @@ def return_menu(soup):
       try:
         nazev = item.find_all("td")[0].find_all("a")[0].text.strip()
         cena = item.find_all("td")[1].text.strip()
-        if nazev and cena and nazev != "ROZVOZ PO HOLEŠOVICÍCH ZDARMA":
+        if nazev and cena and ( nazev != "ROZVOZ PO HOLEŠOVICÍCH ZDARMA" and not re.match('Objednávky s sebou na tel.*', nazev) ):
           arr = [nazev, cena]
           items.append(arr)
       except Exception as IndexError:
         continue
-    
+
     return (items)
 
 def return_date(soup):
@@ -71,4 +71,4 @@ if __name__ == "__main__":
     date = return_date(bs)
     menu_list = return_menu(bs)
 
-    print(date, menu_list)
+    #print(date, menu_list)
