@@ -28,11 +28,11 @@ def return_menu(soup):
     b = a.find_all("p")
     items = []
     for item in b:
-        # print(text)
+        # print(item.text)
         if item.text:
             text = item.text
             arr = []
-            match = re.match("(.*?)([0-9]{2,3}\s+Kč)", text)
+            match = re.match("(.*?)([0-9]{2,3}[\s]*Kč)", text)
             if match is not None:
                 arr = [match.group(1).strip(), match.group(2).strip()]
             else:
