@@ -23,8 +23,8 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    a = soup.find_all("div", { "class": "text cf design-01" })[2].div.p.p
-    #print(a)
+    a = soup.find_all("div", { "class": "text cf design-01" })[2].div
+    # print(a)
     b = a.find_all("p")
     items = []
     for item in b:
