@@ -27,7 +27,7 @@ def return_menu():
         a = re.match("\s+?([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
         c = re.match("\s+?\s+(.*?)\s+([0-9]+\s+Kč)", item) # polivky
         # b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s+[0-9]+\.\s+[0-9]+)", item)
-        b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s?[0-9]+\s?\.\s?[0-9]+)", item)
+        b = re.match("\s+?(([A-Za-zěščřžýáíéúůĚŠČŘŽÝÁÍÉÚŮ]+)\s+[0-9]+\.\s?[0-9]+\s?\.\s?[0-9]+)", item)
         d = re.match("([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
         if a is not None:
             print(a.group(1), a.group(2), a.group(3))
@@ -71,4 +71,3 @@ if __name__ == "__main__":
     #date = return_date()
     menu_list = return_menu()
     print(menu_list)
-
