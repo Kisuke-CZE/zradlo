@@ -28,19 +28,22 @@ def return_menu(soup):
     #c = b.findNext("p").text
     #d = re.split(" Kč", c)
 
-    date = soup.find("div", { "class": "dm-day" }).text.replace("Polední nabídka", "")
-    jidlo_obsah = soup.find_all("span", { "class": "td-jidlo-obsah"} )
-    jidlo_cena =  soup.find_all("td", { "class": "td-cena"} )
+    date = soup.find("div", { "class": "dm-day" }).text.replace("Polední nabídka", "").strip()
+    jidelak =  soup.find_all("tr")
     arr = []
-    for i in range(0, len(jidlo_obsah)):
-        arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
-
+    for item in jidelak:
+      nazev = item.find("td", { "class": "td-popis" })
+      cena = item.find("td", { "class": "td-cena" })
+      objem = item.find("td", { "class": "td-cislo" })
+      if cena and cena.text:
+          jidlo_nazev = nazev.text.strip()
+          jidlo_cena = cena.text.strip()
+          jidlo_objem = objem.text.strip()
+          if jidlo_objem:
+            jidlo_nazev = jidlo_nazev + ' ' + jidlo_objem
+          arr.append([jidlo_nazev, jidlo_cena])
 
     items = arr
-
-
-    print("ITEMS {0}".format(items))
-    print("DATE", date)
     return(items, date)
 
 
@@ -70,6 +73,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    menu_list = return_menu(bs)
+    menu_list, date = return_menu(bs)
 
-    #debug_print(date, menu_list)
+    #print(date)
+    #print(menu_list)
