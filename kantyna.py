@@ -23,9 +23,9 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    a = soup.find_all("div", { "class": "text cf design-01" })[2].div
+    a = soup.find_all("div", { "class": "text-content" })[2]
     # print(a)
-    b = a.find_all("p")
+    b = a.p.p.p.find_all("p")
     items = []
     for item in b:
         # print(item.text)
@@ -78,4 +78,4 @@ if __name__ == "__main__":
     menu_list = return_menu(bs)
     # lol()
 
-    # debug_print(date, menu_list)
+    debug_print(date, menu_list)
