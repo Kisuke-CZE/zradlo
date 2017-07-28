@@ -2,64 +2,79 @@
 # coding=utf-8
 # VRTULE
 
-import requests, sys, re, codecs
+import requests, os, re, tempfile
 
-# TODO: POLIVKY+posledni radky, co nemaj \t
-# TODO: POLIVKY+posledni radky, co nemaj \t
-# TODO: POLIVKY+posledni radky, co nemaj \t
-# TODO: POLIVKY+posledni radky, co nemaj \t
-# TODO: POLIVKY+posledni radky, co nemaj \t
+from bs4 import BeautifulSoup
+from subprocess import check_output
+
+_,TMP = tempfile.mkstemp()
+
 def get_url():
     return "http://uvrtulejidelna.webnode.cz/sluzby/"
+
+def get_file():
+    response = requests.get(get_url())
+
+    if response.status_code != 200:
+        raise requests.RequestException("Error: Vrtule response error")
+    html = response.text
+    bs = BeautifulSoup(html, "html.parser")
+
+    content_div = bs.find_all("div", {"class": "box_content"})[-1]
+
+    for a in content_div.find_all("a", href=True):
+        url = a["href"]
+        if ".doc" in url:
+            doc_url = url
+
+    doc_stream = requests.get(doc_url, stream=True)
+    with open(TMP, "wb") as f:
+        for chunk in doc_stream.iter_content(chunk_size=1024):
+            f.write(chunk)
+
+
+
+    antiword = check_output(["antiword", TMP]).decode("utf8")
+    return antiword
 
 def get_name():
     return "Vrtule"
 
-def return_menu():
-    fs = codecs.open("vrtule.txt", "r", "utf-8")
-    vrt = fs.read()
-    fs.close()
+def return_menu(antiword):
+    # datum
+    lines = [l for l in antiword.split("\n") if l]
+    #print(lines)
     jidla = []
     date = "???"
-
-    for item in vrt.split("\n"):
-        #([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)
-        a = re.match("\s+?([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
+    for item in lines:
+        # print(item)
+        a = re.match("\s*([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
         c = re.match("\s+?\s+(.*?)\s+([0-9]+\s+Kč)", item) # polivky
-        # b = re.match("\s+?((Pondělí|Úterý|Středa|Čtvrtek|Pátek)\s+[0-9]+\.\s+[0-9]+\.\s+[0-9]+)", item)
         b = re.match("\s+?(([A-Za-zěščřžýáíéúůĚŠČŘŽÝÁÍÉÚŮ]+)\s+[0-9]+\.\s?[0-9]+\s?\.\s?[0-9]+)", item)
-        d = re.match("([0-9]+g)\s+(.*?)\s+([0-9]+\s+Kč)", item)
-        if a is not None:
-            print(a.group(1), a.group(2), a.group(3))
+        if a:
+            #print(a.group(1), a.group(2), a.group(3))
             gramaz = a.group(1)
             jidlo = a.group(2)
             cena = a.group(3)
             jidla.append([jidlo, cena, gramaz])
-            #jidla.append(["{0}{1}".format(a.group(1), a.group(2))], a.group(3))
-        elif b is not None:
+        elif b:
             date = b.group(1)
-        elif c is not None:
+        elif c:
             gramaz = ""
             jidlo = c.group(1)
             cena = c.group(2)
             jidla.append([jidlo, cena, gramaz])
-        elif d is not None:
-            print(d.group(1), d.group(2), d.group(3))
-            gramaz = d.group(1)
-            jidlo = d.group(2)
-            cena = d.group(3)
-            jidla.append([jidlo, cena, gramaz])
-        else:
-            pass
 
     return (date, jidla)
 
 def debug_print(date, menu):
-    print(date, menu)
+    print(date)
+    print(menu)
 
 def result():
     try:
-        date, menu_list = return_menu()
+        page = get_file()
+        date, menu_list = return_menu(page)
         nazev = get_name()
         url = get_url()
 
@@ -67,7 +82,11 @@ def result():
     except:
         return(get_name() + " - Chyba", "", "Chyba", ["", "", ""])
 
+    os.remove(TMP)
+
 if __name__ == "__main__":
-    #date = return_date()
-    menu_list = return_menu()
-    print(menu_list)
+    page = get_file()
+    date, menu_list = return_menu(page)
+    os.remove(TMP)
+    #debug_print(date, menu_list)
+    #print(result())
