@@ -36,7 +36,7 @@ def return_menu(soup):
             arr = []
             match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
             if match is not None:
-                arr = [match.group(1).strip(), match.group(2).strip()]
+                arr = [match.group(1).replace('\xa0', '').strip(), match.group(2).replace('\xa0', '').strip()]
             else:
                 continue
             items.append(arr)
@@ -80,4 +80,4 @@ if __name__ == "__main__":
     menu_list = return_menu(bs)
     # lol()
 
-    debug_print(date, menu_list)
+    # debug_print(date, menu_list)
