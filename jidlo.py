@@ -10,14 +10,14 @@ from flask.ext.cache import Cache
 import locale
 locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
-#from kantyna import result as kantyna # KANTYNA 
+#from kantyna import result as kantyna # KANTYNA
 #from kozlovna import result as kozlovna # KOZLOVNA
 #from vrtule import result as vrtule # VRTULE
 #from kolkovna import result as kolkovna # KOLKOVNA
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-modules = ["kantyna", "kozlovna", "vrtule", "avion58", "kolkovna", "pinta", "uholise", "motoburger", "hamburg"]
+modules = ["kantyna", "kozlovna", "vrtule", "avion58", "kolkovna", "pinta", "uholise", "motoburger", "hamburg", "baterka"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
@@ -46,4 +46,3 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
