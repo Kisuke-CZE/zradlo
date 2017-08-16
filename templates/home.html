@@ -21,11 +21,11 @@
     <style> /* shamelessly stolen from http://www.bootply.com/88026 */
         a
         {
-            color: rgb(0, 0, 102);   
+            color: rgb(0, 0, 102);
         }
-        a.visited 
+        a.visited
         {
-            color: rgb(0, 0, 102);   
+            color: rgb(0, 0, 102);
         }
         #sidebar
         {
@@ -33,22 +33,22 @@
             padding-right: 0;
             padding-top: 20px;
             z-index: 9999999;
-            
+
         }
-        #sidebar .nav 
+        #sidebar .nav
         {
             width: 97%;
             display:inline-block;
         }
-        #sidebar li 
+        #sidebar li
         {
             border:0 #f2f2f2 solid;
             border-bottom-width:1px;
         }
         /* collapsed sidebar styles */
-        @media screen and (max-width: 767px) 
+        @media screen and (max-width: 767px)
         {
-            .row-offcanvas 
+            .row-offcanvas
             {
                 position: relative;
                 -webkit-transition: all 0.25s ease-out;
@@ -57,44 +57,44 @@
             }
 
             .row-offcanvas-right
-            .sidebar-offcanvas 
+            .sidebar-offcanvas
             {
                 right: -38.6%;
             }
 
             .row-offcanvas-left
-            .sidebar-offcanvas 
+            .sidebar-offcanvas
             {
                 left: -38.6%;
             }
-            .row-offcanvas-right.active 
+            .row-offcanvas-right.active
             {
                 right: 38.6%;
             }
-            .row-offcanvas-left.active 
+            .row-offcanvas-left.active
             {
                 left: 38.6%;
             }
-            .sidebar-offcanvas 
+            .sidebar-offcanvas
             {
                 position: absolute;
                 top: 0;
                 width: 38.6%;
             }
-            #sidebar 
+            #sidebar
             {
                 padding-top:0;
             }
     }
 
-    </style>   
+    </style>
     <script>
         function lol()
         {
             $( ".sidebarlink" ).click({param1: this}, blikejVoe);
             $( "#resetcookieslink" ).click({param1: this}, resetCookies);
 
-            $('.cbox').each(function( index ) 
+            $('.cbox').each(function( index )
                 {
                     var cookie = Cookies.get("cbox_" + index);
                     if(cookie == "undefined")
@@ -110,15 +110,15 @@
                     else
                     {
                         $("#cbox_" + index).prop("checked", true);
-                    }    
+                    }
                 });
-                    
 
-            $('.cbox').change(function(event) 
+
+            $('.cbox').change(function(event)
             {
                 var cislo = this.id.split("_")[1];
-                    
-                if (this.checked) 
+
+                if (this.checked)
                 {
                     Cookies.set("cbox_" + cislo, 1);// lol prase
                     $(".listek" + cislo).fadeIn();
@@ -140,19 +140,20 @@
 
             function resetCookies() // lol prase
             {
-                $('.cbox').each(function( index ) 
+                $('.cbox').each(function( index )
                 {
                     Cookies.remove("cbox_" + index);
                 });
-                
+
                 location.reload();
             }
         }
-       
+
     </script>
 </head>
 <body onload="lol();">
-   <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;">
+  <!-- <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;"> -->
+  <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; color:#fafafa; ">
         <div class="container-fluid">
                 <div class="col-lg-6 col-md-6 col-sm-6 pull-left hidden-xs">
                      <h1>{{dnesni_datum}}</h1>
@@ -205,7 +206,7 @@
                             </tr>
                             {% endfor %}
                         </tbody>
-                    </table>          
+                    </table>
                 </div>
                 {%- if i%2 -%}</div> {% endif %}
 
