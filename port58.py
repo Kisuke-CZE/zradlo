@@ -45,7 +45,7 @@ def return_menu(soup):
 
 def return_date(soup):
     b = soup.find("h3", { "class": "jsrm-menu-header" }).text.strip()
-    match = re.match(".*([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", b)
+    match = re.match(".*\s([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", b)
     date = match.group(1).strip()
     #print(b)
     return(date)
@@ -78,4 +78,4 @@ if __name__ == "__main__":
     menu_list = return_menu(bs)
     # lol()
 
-    #print(date, menu_list)
+    print(date, menu_list)
