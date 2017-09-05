@@ -23,34 +23,19 @@ def prepare_bs(kantyna):
         return None
 
 def return_menu(soup):
-    a = soup.find("div", { "class": "dailyMenu" })
-    #b = a.findNext("dm-day").text
-    #c = b.findNext("p").text
-    #d = re.split(" Kč", c)
-
-    #date = soup.find("div", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" }).text
-    #date = soup.find_all("span", { "class":"datum" } )[0].text
-    date = soup.find("h3").text
-    #date=""
-    container = soup.find_all("table", {"class":"menu-table"})
-
+    a = soup.find("section", { "class": "restaurant-menu-list" })
+    date = a.find("h4").text
+    menicko = a.find("ul", {"class":"c-menu-content"}).find_all("li", {"class":"c-menu-item"})
+    #print(menicko)
     arr = []
-    for i in range(0, len(container)):
-        jidlo =  container[i].find_all("td")
+    for item in menicko:
+        jidlo =  item.find_all("li")
         jidlo_obsah = jidlo[0]
-        #jidlo_cena =   container[i].find_all("td", { "class":"menu-price" } )
         jidlo_cena = jidlo[1]
         arr.append([jidlo_obsah.text.replace("\t",""), jidlo_cena.text.replace("\t","")])
-   
-        
-        # jidlo_cena.append(jidlo_obsah[i].findNext("td").text)
-      #  arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
-        
+
     items = arr
 
-
-    print("ITEMS {0}".format(items))
-    print("DATE", date)
     return(items, date)
 
 def result():
@@ -76,7 +61,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    menu_list = return_menu(bs)
-    print(menu_list)
+    #menu_list, date = return_menu(bs)
+    #print(date, menu_list)
 
     #debug_print(date, menu_list)
