@@ -17,6 +17,7 @@ def prepare_bs(kantyna):
     if kantyna is not None and kantyna.status_code == 200:
         html = kantyna.content
         soup = BeautifulSoup(html.decode('utf-8', 'ignore'), 'html.parser')
+        #print(soup)
         return soup
 
     else:
@@ -24,15 +25,26 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     a = soup.find("section", { "class": "restaurant-menu-list" })
-    date = a.find("h4").text
-    menicko = a.find("ul", {"class":"c-menu-content"}).find_all("li", {"class":"c-menu-item"})
-    #print(menicko)
     arr = []
-    for item in menicko:
-        jidlo =  item.find_all("li")
-        jidlo_obsah = jidlo[0]
-        jidlo_cena = jidlo[1]
-        arr.append([jidlo_obsah.text.replace("\t",""), jidlo_cena.text.replace("\t","")])
+    try:
+        date = a.find("h4").text
+        menicko = a.find("ul", {"class":"c-menu-content"}).find_all("li", {"class":"c-menu-item"})
+        #print(menicko)
+        for item in menicko:
+            jidlo =  item.find_all("li")
+            jidlo_obsah = jidlo[0]
+            jidlo_cena = jidlo[1]
+            arr.append([jidlo_obsah.text.replace("\t",""), jidlo_cena.text.replace("\t","")])
+
+    except:
+        menicko = soup.find_all("table", { "class": "menu-table" })
+        date = menicko[0].find("h3").text
+        #print(menicko)
+        for item in menicko:
+            jidlo =  item.find_all("td")
+            jidlo_obsah = jidlo[0]
+            jidlo_cena = jidlo[1]
+            arr.append([jidlo_obsah.text.replace("\t","").strip(), jidlo_cena.text.replace("\t","").strip()])
 
     items = arr
 
