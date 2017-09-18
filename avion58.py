@@ -24,7 +24,7 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     items = []
-    
+
     b = soup.find_all("div", { "class": "jidlo" })
     for item in b:
       arr = []
@@ -33,17 +33,17 @@ def return_menu(soup):
       nazev = item.find("strong").text
       if nazev == "":
         # print(item.text)
-        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮ][A-Za-zěščřžýáíéůúĚŠČŘŽÝÁÍÉÚŮ \,\-\–\n\r\t]+)", item.text)
+        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮ][A-Za-zěščřžýáíéůúĚŠČŘŽÝÁÍÉÚŮ \,\-\–“\n\r\t]+)", item.text)
         if match is not None:
           nazev = match.group(1).strip()
         else:
-          continue 
+          continue
         # nazev = item.text
       cena = item.find("strong", { "class": "price" }).text
       arr = [nazev, cena]
       # match = re.match("(.*?)([0-9]{2,3}\,\-)", item)
       items.append(arr)
-    
+
     return items
 
 
@@ -79,8 +79,8 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    date = return_date(bs)
-    menu_list = return_menu(bs)
+    #date = return_date(bs)
+    #menu_list = return_menu(bs)
     # lol()
 
-    print(date, menu_list)
+    #print(date, menu_list)
