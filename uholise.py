@@ -4,7 +4,8 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "https://www.restu.cz/u-holise/denni-menu/"
+    #return "https://www.restu.cz/u-holise/denni-menu/"
+    return "https://www.restu.cz/u-holise/menu/"
 
 def get_name():
     return "U Holiše"
