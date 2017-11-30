@@ -62,10 +62,9 @@ def result():
         bs = prepare_bs(file)
         nazev = get_name()
         url = get_url()
-        date = return_date(bs)
-        menu_list = return_menu(bs)
+        menu_list, date = return_menu(bs)
 
-        print(date, menu_list)
+        #print(date, menu_list)
         return(nazev, url, date, menu_list)
     except Exception as exp:
         print(exp)
