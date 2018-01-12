@@ -4,7 +4,7 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.restaurantport58.cz/"
+    return "http://www.restaurantport58.cz/denni-nabidka/"
 
 def get_name():
     return "Port 58"
@@ -77,8 +77,8 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    date = return_date(bs)
-    menu_list = return_menu(bs)
+    #date = return_date(bs)
+    #menu_list = return_menu(bs)
     # lol()
 
-    print(date, menu_list)
+    #print(date, menu_list)
