@@ -26,22 +26,7 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     a = soup.find("div", { "class": "dailyMenu" })
-    #b = a.findNext("dm-day").text
-    #c = b.findNext("p").text
-    #d = re.split(" Kč", c)
 
-    #date = soup.find_all("td", { "style": "background: rgba(34, 15, 15, .30); font-size: 20px; border-bottom: 1px solid #b7a56d;" })
-    #for day in date:
-    #    print(day)
-    #date = ""
-    #try:
-        #date = ""
-    #    date = soup.find_all("td", { "style":re.compile(r".*background: rgba(34, 15, 15, .30).*") } )[0].text
-
-    #except:
-    #    date = ""
-
-    #jidlo_obsah =  soup.find_all("td", { "style":re.compile(r".*width: 100%.*") } )
     jidlo_obsah =  soup.find_all("tr" )
 
     jidlo_cena = []
@@ -86,7 +71,10 @@ def result():
         return(nazev, url, date, menu_list)
     except Exception as e:
         print(e)
-        return (get_name() + "- Chyba", "", str(e), [])
+        #return (get_name() + "- Chyba", "", str(e), [])
+        nazev = get_name()
+        url = get_url()
+        return (nazev, url, "Menu nenalezeno", [])
 
 if __name__ == "__main__":
     file = get_file()

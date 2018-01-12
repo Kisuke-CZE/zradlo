@@ -80,7 +80,10 @@ def result():
 
         return (nazev, url, date, menu_list)
     except:
-        return(get_name() + " - Chyba", "", "Chyba", ["", "", ""])
+        #return(get_name() + " - Chyba", "", "Chyba", ["", "", ""])
+        nazev = get_name()
+        url = get_url()
+        return (nazev, url, "Menu nenalezeno", [])
 
     os.remove(TMP)
 

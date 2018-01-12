@@ -11,7 +11,7 @@ def get_name():
 
 def get_file():
     user_agent = {'User-agent': 'Mozilla/5.0'}
-    kantyna = requests.get("http://www.restaurantport58.cz/denni-nabidka/", headers = user_agent)
+    kantyna = requests.get(get_url())
     # kantyna.encoding = 'UTF-8'
     return kantyna
 
@@ -67,7 +67,10 @@ def result():
         return(nazev, url, date, menu_list)
     except Exception as exp:
         print(exp)
-        return(get_name() + "- Chyba", "", "", [str(exp)])
+        #return(get_name() + "- Chyba", "", "", [str(exp)])
+        nazev = get_name()
+        url = get_url()
+        return (nazev, url, "Menu nenalezeno", [])
 
 if __name__ == "__main__":
     file = get_file()

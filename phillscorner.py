@@ -7,13 +7,13 @@ from bs4 import BeautifulSoup
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    return "http://www.restauracepetpenez.cz/"
+    return "https://phillscorner.cz/"
 
 def get_name():
-    return "Pět peněz"
+    return "Phill’s Corner"
 
 def get_file():
-    kantyna = requests.get("http://www.restauracepetpenez.cz/homepage/poledni-menicka")
+    kantyna = requests.get(get_url())
     return kantyna
 
 def prepare_bs(kantyna):
@@ -26,35 +26,19 @@ def prepare_bs(kantyna):
         return None
 
 def return_menu(soup):
-    today = time.strftime("%A - %-d.%-m.%Y")
-    # print(today)
+    today = time.strftime("%A")
+    #print(today)
     items = []
     published = False
     date = "???"
-    a = soup.find_all("table")[0].find_all("tr")
-    for item in a:
-      # print(published)
-      # print(str(item))
-      line = item.find_all("td")
-      try:
-        day = line[0].strong.text.strip()
-        #print(day)
-        if day == today and not published:
-          published = True
-          date = day
-          continue
-        elif day != today and published:
-          published = False
-          continue
-        else:
-          published = False
-      except Exception as NoneType:
-        pass
-      if published == True:
-        nazev = line[2].text.strip()
-        cena = line[3].text.strip()
-        arr = [nazev, cena]
-        items.append(arr)
+    jidelak = soup.find_all("div", { "class": "menu-line" })
+    #print(days)
+    for jidlo in jidelak:
+      #print(jidlo)
+      nazev = jidlo.find("span", { "class": "title" }).text
+      cena = jidlo.find("span", { "class": "price" }).text
+      items.append([nazev, cena])
+    #print(date)
 
 
     return(date, items)
@@ -85,7 +69,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    date, menu_list = return_menu(bs)
-    print(date, menu_list)
+    #date, menu_list = return_menu(bs)
+    #print(date, menu_list)
 
     #debug_print(date, menu_list)

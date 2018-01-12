@@ -75,7 +75,10 @@ def result():
         return(nazev, url, date, menu_list)
     except Exception as e:
         print(e)
-        return (get_name() + "- Chyba", "", str(e), [])
+        #return (get_name() + "- Chyba", "", str(e), [])
+        nazev = get_name()
+        url = get_url()
+        return (nazev, url, "Menu nenalezeno", [])
 
 if __name__ == "__main__":
     file = get_file()
