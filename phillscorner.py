@@ -35,7 +35,7 @@ def return_menu(soup):
     #print(days)
     for jidlo in jidelak:
       #print(jidlo)
-      nazev = jidlo.find("span", { "class": "title" }).text
+      nazev = jidlo.find("span", { "class": "title" }).text.split('(')[0].strip()
       cena = jidlo.find("span", { "class": "price" }).text
       items.append([nazev, cena])
     #print(date)
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    #date, menu_list = return_menu(bs)
-    #print(date, menu_list)
+    date, menu_list = return_menu(bs)
+    print(date, menu_list)
 
     #debug_print(date, menu_list)
