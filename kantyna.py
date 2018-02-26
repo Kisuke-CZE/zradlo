@@ -24,15 +24,17 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     a = soup.find_all("div", { "class": "text-content" })[2]
+    #print(a)
     while a.p.find("p"):
       a = a.p
-    #b = a.find_all("p")
-    b = a.find_all("strong")
+    b = a.find_all("p")
+    #b = a.find_all("strong")
     items = []
     for item in b:
         #print(item)
         if item.text:
             text = item.text
+            #print(text)
             arr = []
             match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
             if match is not None:
@@ -65,7 +67,7 @@ def result():
         date = return_date(bs)
         menu_list = return_menu(bs)
 
-        print(date, menu_list)
+        #print(date, menu_list)
         return(nazev, url, date, menu_list)
     except Exception as exp:
         print(exp)
