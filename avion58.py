@@ -33,7 +33,7 @@ def return_menu(soup):
       nazev = item.find("strong").text
       if nazev == "":
         # print(item.text)
-        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮ][A-Za-zěščřžýáíéůúĚŠČŘŽÝÁÍÉÚŮ \,\-\–“\n\r\t]+)", item.text)
+        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤ][A-Za-zěščřžýáíéůúťŤĚŠČŘŽÝÁÍÉÚŮ \,\-\–“\n\r\t]+)", item.text)
         if match is not None:
           nazev = match.group(1).strip()
         else:
