@@ -17,7 +17,7 @@ locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-modules = ["kozlovna", "vrtule", "avion58", "kolkovna", "pinta", "uholise", "motoburger", "hamburg", "baterka", "port_stanley", "petpenez", "jatka78", "port58", "phillscorner", "kantyna"]
+modules = ["kozlovna", "kolkovna", "avion58", "vrtule", "pinta", "petpenez", "motoburger", "hamburg", "baterka", "uholise", "port_stanley", "jatka78", "extolinn" , "port58", "phillscorner", "kantyna"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
