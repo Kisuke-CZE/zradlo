@@ -37,12 +37,13 @@ def return_menu(soup):
     date = "???"
     for i in jidlo_obsah:
         if i.text != "":
-          #print (i.text)
-          if i.text.strip() == "Nápoj ZDARMA:" and published:
+          # print (i)
+          if i.text.strip() == "Nápoj:" and published:
               break
 
           if published:
               zradlo = i.find_all("td")
+              #print(zradlo)
               nazev = zradlo[1].text
               cena = zradlo[2].text
               #print(cena)
@@ -82,5 +83,5 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    menu_list, date = return_menu(bs)
-    #print(date, menu_list)
+    # menu_list, date = return_menu(bs)
+    # print(date, menu_list)
