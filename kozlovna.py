@@ -10,7 +10,7 @@ def get_name():
     return "Holešovická Kozlovna"
 
 def get_file():
-    kantyna = requests.get(get_url())
+    kantyna = requests.get(get_url(), timeout=2)
     return kantyna
 
 def prepare_bs(kantyna):
