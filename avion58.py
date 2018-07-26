@@ -22,38 +22,33 @@ def prepare_bs(kantyna):
     else:
         return "Error"
 
+def return_date(soup):
+    b = soup.find("div", { "class": "levy-sloupec denni-menu" }).find("div", { "class": "box" }).span.text.strip()
+    return(b)
+
 def return_menu(soup):
     items = []
+    datum = "???"
 
-    b = soup.find_all("div", { "class": "jidlo" })
-    for item in b:
-      arr = []
-      #jidlo = BeautifulSoup(str(item), 'html.parser')
-      # arr = [jidlo.find("strong").text, jidlo.find("strong", { "class": "price" }).text]
-      nazev = item.find("strong").text
-      if nazev == "":
-        # print(item.text)
-        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇ][A-Za-zěščřžýáíéůúťňŤĚŠČŘŽŇÝÁÍÉÚŮ \,\-\–“\n\r\t]+)", item.text)
+    b = soup.find("div", { "class": "levy-sloupec denni-menu" }).find("div", { "class": "box" }).text
+    # print(b)
+    for item in b.splitlines():
+      if item != "":
+        # print(item)
+        match = re.match("^(Polévky|Hlavní jídla|Saláty|Naše limonády|Dezerty)?([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇ][A-Za-zěščřžýáíéůúťňŤĚŠČŘŽŇÝÁÍÉÚŮ \,\-\–“\n\r\t]+)([0-9]+,-)$", item)
         if match is not None:
-          nazev = match.group(1).strip()
+          arr = []
+          nazev = match.group(2).strip()
+          cena = match.group(3).strip()
+          items.append([nazev, cena])
+          # print(nazev)
         else:
           continue
-        # nazev = item.text
-      cena = item.find("strong", { "class": "price" }).text
-      arr = [nazev, cena]
-      # match = re.match("(.*?)([0-9]{2,3}\,\-)", item)
-      items.append(arr)
+      else:
+        continue
 
     return items
 
-
-def return_date(soup):
-    b = soup.find("div", { "class": "datum" }).text
-    #print(b)
-    #b = b[1].find_all('h3')[0].text
-    #b = b[0].h3.string
-    #b = b.replace("Denní nabídka ", "")
-    return(b)
 
 def debug_print(date, menu):
     print(date)
@@ -84,6 +79,5 @@ if __name__ == "__main__":
 
     #date = return_date(bs)
     #menu_list = return_menu(bs)
-    # lol()
 
     #print(date, menu_list)
