@@ -35,7 +35,7 @@ def return_menu(soup):
     for item in b.splitlines():
       if item != "":
         # print(item)
-        match = re.match("^(Polévky|Hlavní jídla|Saláty|Naše limonády|Dezerty)?([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇ][A-Za-zěščřžýáíéůúťňŤĚŠČŘŽŇÝÁÍÉÚŮ \,\-\–“\n\r\t]+)([0-9]+,-)$", item)
+        match = re.match("^(Polévky|Hlavní jídla|Saláty|Naše limonády|Dezerty)?([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇÓÖ][A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ ,\-–“\s\(\)]+)[\s]+([0-9]+,-)\s*$", item)
         if match is not None:
           arr = []
           nazev = match.group(2).strip()
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #date = return_date(bs)
-    #menu_list = return_menu(bs)
+    date = return_date(bs)
+    menu_list = return_menu(bs)
 
-    #print(date, menu_list)
+    print(date, menu_list)
