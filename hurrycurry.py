@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    return "http://hurrycurry.cz/na-maninach/index.php?route=product/category&path=97"
+    return "http://hurrycurry.cz/na-maninach/"
 
 def get_name():
     return "Hurry Curry"
