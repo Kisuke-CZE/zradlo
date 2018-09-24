@@ -44,7 +44,7 @@ def return_menu(soup):
     for jidlo in jidla:
         nazev = jidlo.find("p", { "class": "description"}).text.strip()
         cena_text = jidlo.find("p", { "class": "price"}).text.strip()
-        match = re.match('([0-9]{2,3}\s+Kč)\s+.*', cena_text)
+        match = re.match('([0-9\,]{2,6}\s+Kč)\s+.*', cena_text)
         if match is not None:
             cena = match.group(1)
         else:
