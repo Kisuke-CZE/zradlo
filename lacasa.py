@@ -26,15 +26,20 @@ def return_menu(soup):
     a = soup.find_all("div", { "class": "panel panel-default" })[1]
     date = a.find("option").text.strip()
     dailymenu = a.find("tbody").find_all("tr")
+    # print(dailymenu)
     items = []
     for item in dailymenu:
-        #print("radek:",item.text)
-        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇÓÖ][A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ ,\-–“\(\)]+)[\s\n]+([0-9]+ Kč)\s+$", item.text)
-        nazev = match.group(1).strip()
-        cena = match.group(2).strip()
-        #print(nazev)
-        #print(cena)
-        items.append([nazev, cena])
+        # print("radek:",item.text)
+        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇÓÖ][A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ ,\-–“\(\)]+)[\s\n]+([0-9]+ Kč)?\s+$", item.text)
+        if match:
+          nazev = match.group(1).strip()
+          if match.group(2):
+            cena = match.group(2).strip()
+          else:
+            cena = "Nestanovena"
+          #print(nazev)
+          #print(cena)
+          items.append([nazev, cena])
 
     return(items, date)
 
@@ -64,7 +69,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    #menu_list, date = return_menu(bs)
-    #print(date, menu_list)
+    # menu_list, date = return_menu(bs)
+    # print(date, menu_list)
 
     #debug_print(date, menu_list)
