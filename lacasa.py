@@ -30,7 +30,7 @@ def return_menu(soup):
     items = []
     for item in dailymenu:
         # print("radek:",item.text)
-        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇÓÖ][A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ ,\-–“\(\)´\/]+)[\s\n]+([0-9]+ Kč)?\s+$", item.text)
+        match = re.match("\s+([A-ZĚŠČŘŽÝÁÍÉÚŮŤŇÓÖ][A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ \t,\-–“\(\)´\/]+)[\s\n]+([0-9]+ Kč)?\s+$", item.text)
         if match:
           nazev = match.group(1).strip()
           if match.group(2):
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    # menu_list, date = return_menu(bs)
-    # print(date, menu_list)
+    #menu_list, date = return_menu(bs)
+    #print(date, menu_list)
 
     #debug_print(date, menu_list)
