@@ -18,7 +18,7 @@ def get_file():
 def prepare_bs(kantyna):
     if kantyna is not None and kantyna.status_code == 200:
         html = kantyna.text
-        #print(html)
+        # print(html)
         soup = BeautifulSoup(html, 'html.parser')
         return soup
     else:
@@ -27,28 +27,29 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     items = []
     a = soup.find("div", { "class": "column central" }).find_all("li")
-    #print(a)
+    # print(a)
 
     for item in a:
       if item.text.strip():
           nazev = item.find("p", { "class": "item-text" }).text.strip()
           b = item.find_all("div", { "class": "value-col" })
-          cena = ""
+          # cena = ""
           for price in b:
               if price.text.strip():
                   cena = price.text.strip()
+                  arr = [nazev, cena]
+                  items.append(arr)
           # print(nazev, cena)
-          arr = [nazev, cena]
-          items.append(arr)
-
+          # print(nazev, b)
     return items
 
 def return_date(soup):
-    b = soup.find("h3", { "class": "jsrm-menu-header" }).text.strip()
-    match = re.match(".*\s([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", b)
-    date = match.group(1).strip()
+    #b = soup.find("h3", { "class": "jsrm-menu-header" }).text.strip()
+    #match = re.match(".*\s([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", b)
+    #date = match.group(1).strip()
     #print(b)
-    return(date)
+    #return(date)
+    return("???")
 
 def debug_print(date, menu):
     print(date)
@@ -77,8 +78,8 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #date = return_date(bs)
-    #menu_list = return_menu(bs)
+    # date = return_date(bs)
+    # menu_list = return_menu(bs)
     # lol()
 
-    #print(date, menu_list)
+    # print(date, menu_list)
