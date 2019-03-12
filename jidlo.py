@@ -5,19 +5,15 @@ from flask import request
 from flask import jsonify
 from datetime import datetime
 import importlib
-from flask.ext.cache import Cache
+# from flask.ext.cache import Cache
+from flask_caching import Cache
 
 import locale
 locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
-#from kantyna import result as kantyna # KANTYNA
-#from kozlovna import result as kozlovna # KOZLOVNA
-#from vrtule import result as vrtule # VRTULE
-#from kolkovna import result as kolkovna # KOLKOVNA
-
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-modules = ["kozlovna", "kolkovna", "avion58", "vrtule", "pinta", "petpenez", "motoburger", "hamburg" , "baterka", "uholise", "port_stanley", "jatka78", "extolinn" , "port58", "phillscorner", "hurrycurry", "lacasa", "kantyna"]
+modules = ["kozlovna", "kolkovna-artgen", "avion58", "vrtule", "pinta", "petpenez", "motoburger", "hamburg" , "baterka", "uholise", "port_stanley", "jatka78", "extolinn" , "port58", "phillscorner", "hurrycurry", "lacasa", "kantyna", "kolkovna-budej"]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
@@ -32,16 +28,21 @@ def home():
     urlka = []
     jidla = []
     datumy = []
+    lokality = []
+    moduly = []
 
     for y in imported:
-        nazev, url, datum, jidlo = y.result()
+        print(y.__name__)
+        nazev, url, datum, jidlo, lokalita = y.result()
         nazvy.append(nazev)
         urlka.append(url)
         jidla.append(jidlo)
         datumy.append(datum)
-    print("Importing:", nazvy, urlka, jidla, datumy)
+        lokality.append(lokalita)
+        moduly.append(y.__name__)
+    print("Importing:", nazvy, urlka, jidla, datumy, lokality, moduly)
 
-    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), nazvy=nazvy, urlka=urlka, jidla=jidla, datumy=datumy)
+    return render_template("home.html", dnesni_datum=datetime.today().strftime("%A %d. %m. %Y"), nazvy=nazvy, urlka=urlka, jidla=jidla, datumy=datumy, lokality=lokality, moduly=moduly)
 
 
 if __name__ == "__main__":

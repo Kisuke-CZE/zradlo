@@ -77,13 +77,15 @@ def result():
         date, menu_list = return_menu(page)
         nazev = get_name()
         url = get_url()
+        lokalita = "holesovice"
 
-        return (nazev, url, date, menu_list)
+        return (nazev, url, date, menu_list, lokalita)
     except:
         #return(get_name() + " - Chyba", "", "Chyba", ["", "", ""])
         nazev = get_name()
         url = get_url()
-        return (nazev, url, "Menu nenalezeno", [])
+        lokalita = "holesovice"
+        return (nazev, url, "Menu nenalezeno", [], lokalita)
 
     os.remove(TMP)
 

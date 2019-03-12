@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 # coding=utf-8
 import requests, sys, re
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.holesovickakozlovna.cz/"
+    return "https://www.kolkovna.cz/cs/kolkovna-budejovicka-18/denni-menu"
 
 def get_name():
-    return "Holešovická Kozlovna"
+    return "Kolkovna Budějovická"
 
 def get_file():
-    kantyna = requests.get(get_url(), timeout=2)
+    kantyna = requests.get(get_url())
     return kantyna
 
 def prepare_bs(kantyna):
@@ -23,27 +24,32 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    a = soup.find("div", { "class": "dailyMenu" })
+
     #b = a.findNext("dm-day").text
     #c = b.findNext("p").text
     #d = re.split(" Kč", c)
 
-    date = soup.find("div", { "class": "dm-day" }).text.replace("Polední nabídka", "").strip()
-    jidelak =  soup.find_all("tr")
+    meme = soup.find("div", { "class": "dailyMenuWeek" })
+    test = meme.find_all("section")
+    denvtydnu = datetime.today().weekday()
+    dnesni = test[denvtydnu%5].find_all("tr") # o vikendu nezerem
+    date = test[denvtydnu%5].find_all("h2")[0].text
     arr = []
-    for item in jidelak:
-      nazev = item.find("td", { "class": "td-popis" })
-      cena = item.find("td", { "class": "td-cena" })
-      objem = item.find("td", { "class": "td-cislo" })
-      if cena and cena.text:
-          jidlo_nazev = nazev.text.strip()
-          jidlo_cena = cena.text.strip()
-          jidlo_objem = objem.text.strip()
-          if jidlo_objem:
-            jidlo_nazev = jidlo_nazev + ' ' + jidlo_objem
-          arr.append([jidlo_nazev, jidlo_cena])
+    for i in dnesni:
+        arr.append(["{0} - {1}".format(i.findNext("td", { "class": "title"} ).text, i.findNext("td", { "class": "name"} ).text), i.findNext("td", { "class": "price"} ).text])
+    print(arr)
+
+#	jidlo_obsah = soup.find_all("span", { "class": "td-jidlo-obsah"} )
+#	jidlo_cena =  soup.find_all("td", { "class": "td-cena"} )
+#	arr = []
+#	for i in range(0, len(jidlo_obsah)):
+#		arr.append([jidlo_obsah[i].text, jidlo_cena[i].text])
 
     items = arr
+
+
+    print("ITEMS {0}".format(items))
+    print("DATE", date)
     return(items, date)
 
 
@@ -59,17 +65,17 @@ def result():
         #date = return_date(bs)
         nazev = get_name()
         url = get_url()
-        lokalita = "holesovice"
+        lokalita = "brumlovka"
 
         menu_list, date = return_menu(bs)
 
-        return(nazev, url, date, menu_list, lokalita)
+        return (nazev, url, date, menu_list, lokalita)
     except Exception as e:
         print(e)
         #return (get_name() + "- Chyba", "", str(e), [])
         nazev = get_name()
         url = get_url()
-        lokalita = "holesovice"
+        lokalita = "brumlovka"
         return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
@@ -78,7 +84,6 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    menu_list, date = return_menu(bs)
+    menu_list = return_menu(bs)
 
-    #print(date)
-    #print(menu_list)
+    #debug_print(date, menu_list)

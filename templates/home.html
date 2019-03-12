@@ -94,22 +94,34 @@
             $( ".sidebarlink" ).click({param1: this}, blikejVoe);
             $( "#resetcookieslink" ).click({param1: this}, resetCookies);
 
-            $('.cbox').each(function( index )
+            $('.cbox').each(function(index)
                 {
-                    var cookie = Cookies.get("cbox_" + index);
-                    if(cookie == "undefined")
+                    var cookie = Cookies.get(this.id);
+                    var cislo = this.id.split("_")[1];
+                    console.log(this.id + "; value = " + cookie);
+                    if(cookie === undefined)
                     {
-                        Cookies.set("cbox_" + cislo, 1);
+                        if ( cislo === "brumlovka" ) {
+                          //Cookies.set(this.id, 0);
+                          cookie = 0
+                        }
+                        else {
+                          //Cookies.set(this.id, 1);
+                          cookie = 1
+                        }
                     }
-                    console.log(index + "; index = " + cookie);
+                    //console.log(this.id + "; value = " + cookie);
                     if(cookie == 0)
                     {
-                        $("#cbox_" + index).prop("checked", false);
-                        $(".listek" + index).hide(); // proč máš pro checkboxy idčka a pro listky classu lol
+                        $("#" + this.id).prop("checked", false);
+                        $("." + cislo).hide(); // proč máš pro checkboxy idčka a pro listky classu lol
+                        if ( cislo === "holesovice" || cislo === "brumlovka" ) {
+                          $(".div_loc_" + cislo).hide();
+                        }
                     }
                     else
                     {
-                        $("#cbox_" + index).prop("checked", true);
+                        $("#" + this.id).prop("checked", true);
                     }
                 });
 
@@ -120,29 +132,38 @@
 
                 if (this.checked)
                 {
-                    Cookies.set("cbox_" + cislo, 1);// lol prase
-                    $(".listek" + cislo).fadeIn();
+                    Cookies.set(this.id, 1);// lol prase
+                    $("." + cislo).fadeIn();
+                    if ( cislo === "holesovice" || cislo === "brumlovka" ) {
+                      $(".div_loc_" + cislo).fadeIn();
+                      $(".cbox_loc_" + cislo).prop("checked", true);
+                    }
+
                 }
                 else
                 {
-                    Cookies.set("cbox_" + cislo, 0); // lol prase
-                    $(".listek" + cislo).fadeOut();
+                    Cookies.set(this.id, 0); // lol prase
+                    $("." + cislo).fadeOut();
+                    if ( cislo === "holesovice" || cislo === "brumlovka" ) {
+                      $(".div_loc_" + cislo).fadeOut();
+                      $(".cbox_loc_" + cislo).prop("checked", false);
+                    }
                 }
             });
 
             function blikejVoe(event)
             {
                 var cislo = event.target.id.split("_")[1];
-                $(".listek" + cislo).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
+                $("." + cislo).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
                 Cookies.set("cbox_" + cislo, 1);// lol prase
                 $("#cbox_" + cislo).prop("checked", true);
             }
 
             function resetCookies() // lol prase
             {
-                $('.cbox').each(function( index )
+                $('.cbox').each(function()
                 {
-                    Cookies.remove("cbox_" + index);
+                    Cookies.remove(this.id);
                 });
 
                 location.reload();
@@ -171,12 +192,26 @@
              <span class="icon-bar"></span>
              <span class="icon-bar"></span>
            </button>
-                <ul class="nav">
+               <ul class="nav nav-locs">
+               <h2>Lokality</h2>
+               <form>
+                   <li><input type="checkbox" class="cbox" id="cbox_brumlovka" value="cbox-brumlovka" checked>
+                     Brumlovka
+                   </li>
+                   <li><input type="checkbox" class="cbox" id="cbox_holesovice" value="cbox-holesovice" checked>
+                       Holešovice
+                   </li>
+               </form>
+               </ul>
+                <ul class="nav nav-pubs">
+                <h2>Restaurace</h2>
                 <form>
                  {% for i in range(0, nazvy|length) %}
-                    <li><input type="checkbox" class="cbox" id="cbox_{{i}}" value="cbox{{i}}" checked>
-                        <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{i}}">{{nazvy[i]}}</a>
-                    </li>
+                    <div class="div_loc_{{lokality[i]}}" id="div_loc_{{lokality[i]}}" >
+                      <li><input type="checkbox" class="cbox cbox_loc_{{lokality[i]}} cbox_pub_{{moduly[i]}}" id="cbox_{{moduly[i]}}" value="cbox{{moduly[i]}}" checked>
+                        <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{moduly[i]}}">{{nazvy[i]}}</a>
+                      </li>
+                    </div>
                 {% endfor %}
                 </form>
                     <li>
@@ -187,7 +222,7 @@
             <div class="col-md-8">
             {% for i in range(0, jidla|length) %}
                 {%- if i%2 -%}<div class="row group"> {% endif %}
-                <div class="col-lg-6 col-md-6 col-sm-6 listek listek{{i}}">
+                <div class="col-lg-6 col-md-6 col-sm-6 listek {{moduly[i]}} {{lokality[i]}}">
                     <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
                     <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
                     <table class="table">

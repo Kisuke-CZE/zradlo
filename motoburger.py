@@ -53,18 +53,19 @@ def result():
         bs = prepare_bs(file)
         nazev = get_name()
         url = get_url()
-        # menu_list = return_menu()
+        lokalita = "holesovice"
         menu_list = return_menu(bs)
         date = return_date(bs)
 
         print(date, menu_list)
-        return(nazev, url, date, menu_list)
+        return(nazev, url, date, menu_list, lokalita)
     except Exception as exp:
         print(exp)
         #return(get_name() + "- Chyba", "", "", [str(exp)])
         nazev = get_name()
         url = get_url()
-        return (nazev, url, "Menu nenalezeno", [])
+        lokalita = "holesovice"
+        return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
     file = get_file()
