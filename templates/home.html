@@ -5,249 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jídlo</title>
     <link rel="shortcut icon" href="static/favicon.ico" />
+    <!-- Bootstrap style and JS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 
     <script src="static/js.cookie.js"></script>
-    <script>
-        $(document).ready(function() {
-        $('[data-toggle=offcanvas]').click(function() {
-        $('.row-offcanvas').toggleClass('active');
-        });
-        });
-    </script>
-    <!-- <script type="text/javascript" src="/static/stupidtable.js"></script>-->
-    <style> /* shamelessly stolen from http://www.bootply.com/88026 */
-        a
-        {
-            color: rgb(0, 0, 102);
-        }
-        a.visited
-        {
-            color: rgb(0, 0, 102);
-        }
-        #sidebar
-        {
-            height: 100%;
-            padding-right: 0;
-            padding-top: 20px;
-            z-index: 9999999;
-
-        }
-        #sidebar .nav
-        {
-            width: 97%;
-            display:inline-block;
-        }
-        #sidebar li
-        {
-            border:0 #f2f2f2 solid;
-            border-bottom-width:1px;
-        }
-        /* collapsed sidebar styles */
-        @media screen and (max-width: 767px)
-        {
-            .row-offcanvas
-            {
-                position: relative;
-                -webkit-transition: all 0.25s ease-out;
-                -moz-transition: all 0.25s ease-out;
-                transition: all 0.25s ease-out;
-            }
-
-            .row-offcanvas-right
-            .sidebar-offcanvas
-            {
-                right: -38.6%;
-            }
-
-            .row-offcanvas-left
-            .sidebar-offcanvas
-            {
-                left: -38.6%;
-            }
-            .row-offcanvas-right.active
-            {
-                right: 38.6%;
-            }
-            .row-offcanvas-left.active
-            {
-                left: 38.6%;
-            }
-            .sidebar-offcanvas
-            {
-                position: absolute;
-                top: 0;
-                width: 38.6%;
-            }
-            #sidebar
-            {
-                padding-top:0;
-            }
-    }
-
-    </style>
-    <script>
-        function lol()
-        {
-            $( ".sidebarlink" ).click({param1: this}, blikejVoe);
-            $( "#resetcookieslink" ).click({param1: this}, resetCookies);
-
-            $('.cbox').each(function(index)
-                {
-                    var cookie = Cookies.get(this.id);
-                    var cislo = this.id.split("_")[1];
-                    console.log(this.id + "; value = " + cookie);
-                    if(cookie === undefined)
-                    {
-                        if ( cislo === "brumlovka" ) {
-                          //Cookies.set(this.id, 0);
-                          cookie = 0
-                        }
-                        else {
-                          //Cookies.set(this.id, 1);
-                          cookie = 1
-                        }
-                    }
-                    //console.log(this.id + "; value = " + cookie);
-                    if(cookie == 0)
-                    {
-                        $("#" + this.id).prop("checked", false);
-                        $("." + cislo).hide(); // proč máš pro checkboxy idčka a pro listky classu lol
-                        if ( cislo === "holesovice" || cislo === "brumlovka" ) {
-                          $(".div_loc_" + cislo).hide();
-                        }
-                    }
-                    else
-                    {
-                        $("#" + this.id).prop("checked", true);
-                    }
-                });
-
-
-            $('.cbox').change(function(event)
-            {
-                var cislo = this.id.split("_")[1];
-
-                if (this.checked)
-                {
-                    Cookies.set(this.id, 1);// lol prase
-                    $("." + cislo).fadeIn();
-                    if ( cislo === "holesovice" || cislo === "brumlovka" ) {
-                      $(".div_loc_" + cislo).fadeIn();
-                      $(".cbox_loc_" + cislo).prop("checked", true);
-                    }
-
-                }
-                else
-                {
-                    Cookies.set(this.id, 0); // lol prase
-                    $("." + cislo).fadeOut();
-                    if ( cislo === "holesovice" || cislo === "brumlovka" ) {
-                      $(".div_loc_" + cislo).fadeOut();
-                      $(".cbox_loc_" + cislo).prop("checked", false);
-                    }
-                }
-            });
-
-            function blikejVoe(event)
-            {
-                var cislo = event.target.id.split("_")[1];
-                $("." + cislo).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
-                Cookies.set("cbox_" + cislo, 1);// lol prase
-                $("#cbox_" + cislo).prop("checked", true);
-            }
-
-            function resetCookies() // lol prase
-            {
-                $('.cbox').each(function()
-                {
-                    Cookies.remove(this.id);
-                });
-
-                location.reload();
-            }
-        }
-
-    </script>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="static/custom.js"></script>
 </head>
 <body onload="lol();">
-  <!-- <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; background-repeat: no-repeat; background-image: url('static/logo.png'); height: 210px; color:#fafafa; background-position: right 20px bottom 58px;"> -->
-  <div id="datum" class="jumbotron group" style="/*background-color: #131357;*/ background-color: #000066; color:#fafafa; ">
-        <div class="container-fluid">
-                <div class="col-lg-6 col-md-6 col-sm-6 pull-left hidden-xs">
-                     <h1>{{dnesni_datum}}</h1>
-                </div>
+  <nav id="datum" class="navbar" style="background-color: #000066; color:#fafafa; ">
+      <button type="button" id="sidebarCollapse" class="navbar-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav">
+        <li><h2>{{dnesni_datum}}</h2></li>
+      </ul>
+  </nav>
+
+  <div class="wrapper">
+    <nav id="sidebar">
+    <!-- sidebar -->
+      <ul class="nav nav-locs">
+        <h1>Lokality</h2>
+        <form>
+          <li><input type="checkbox" class="cbox" id="cbox_brumlovka" value="cbox-brumlovka" checked> Brumlovka </li>
+          <li><input type="checkbox" class="cbox" id="cbox_holesovice" value="cbox-holesovice" checked> Holešovice </li>
+        </form>
+      </ul>
+      <ul class="nav nav-pubs">
+        <h2>Restaurace</h2>
+        <form>
+          {% for i in range(0, nazvy|length) %}
+            <div class="div_loc_{{lokality[i]}}" id="div_loc_{{lokality[i]}}" >
+              <li><input type="checkbox" class="cbox cbox_loc_{{lokality[i]}} cbox_pub_{{moduly[i]}}" id="cbox_{{moduly[i]}}" value="cbox{{moduly[i]}}" checked>
+                <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{moduly[i]}}">{{nazvy[i]}}</a>
+              </li>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid" style="color:rgb(22,22,22);">
-       <div class="row row-offcanvas row-offcanvas-left">
-        <!-- sidebar -->
-            <div class="col-lg-2 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
- 	    <!--<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">-->
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-           </button>
-               <ul class="nav nav-locs">
-               <h2>Lokality</h2>
-               <form>
-                   <li><input type="checkbox" class="cbox" id="cbox_brumlovka" value="cbox-brumlovka" checked>
-                     Brumlovka
-                   </li>
-                   <li><input type="checkbox" class="cbox" id="cbox_holesovice" value="cbox-holesovice" checked>
-                       Holešovice
-                   </li>
-               </form>
-               </ul>
-                <ul class="nav nav-pubs">
-                <h2>Restaurace</h2>
-                <form>
-                 {% for i in range(0, nazvy|length) %}
-                    <div class="div_loc_{{lokality[i]}}" id="div_loc_{{lokality[i]}}" >
-                      <li><input type="checkbox" class="cbox cbox_loc_{{lokality[i]}} cbox_pub_{{moduly[i]}}" id="cbox_{{moduly[i]}}" value="cbox{{moduly[i]}}" checked>
-                        <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{moduly[i]}}">{{nazvy[i]}}</a>
-                      </li>
-                    </div>
+          {% endfor %}
+        </form>
+      </ul>
+      <ul class="nav nav-others">
+        <h2>Ostatní</h2>
+        <li>
+          <a id="resetcookieslink" href="#">Resetovat cookies (filtr restaurací)</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="content">
+      <div class="container-fluid">
+        <div class="row">
+          {% for i in range(0, jidla|length ) %}
+          <div class="col-sm-6 {{moduly[i]}} {{lokality[i]}}">
+            <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
+            <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th data-sort="str" style="font-weight:bold;" width="87%" >Jídlo</th>
+                  <th data-sort="int" style="font-weight:bold;" width="13%">Cena</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for y in jidla[i] %}
+                  <tr>
+                    <td>{{y.0}}</td>
+                    <td>{{y.1}}</td>
+                  </tr>
                 {% endfor %}
-                </form>
-                    <li>
-                        <a id="resetcookieslink" href="#">Resetovat cookies (filtr restaurací)</a>
-                    </li>
-                </ul>
-            </div>
-	    <div class="col-md-8">
-	    {% for i in range(0, jidla|length ) %}
-	    {% if (i%2==0) %}<div class="row group"> {% endif %}
-                <div class="col-lg-6 col-md-6 col-sm-6 listek {{moduly[i]}} {{lokality[i]}}">
-                    <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
-                    <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
-                    <table class="table">
-                      <thead>
-                            <tr>
-                            <th data-sort="str" style="font-weight:bold;" width="80%" >Jídlo</th>
-                            <th data-sort="int" style="font-weight:bold;" width="20%">Cena</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for y in jidla[i] %}
-                             <tr>
-                                <td>{{y.0}}</td>
-                                <td>{{y.1}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-		{% if (i%2==1) or (i==jidla|length) %}</div> {% endif %}
-
-            {% endfor %}
-            </div>
+              </tbody>
+            </table>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    </div>
-
+  </div>
 </body>
 </html>
