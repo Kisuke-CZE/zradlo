@@ -34,7 +34,7 @@ def return_menu(soup):
         text = item.text
         match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}]+)[\s]+([0-9]{2,3})$", text)
         if match is not None:
-            arr = [re.sub('[{}]', '',match.group(1).strip()), match.group(2).strip() + " Kč"]
+            arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
         else:
             continue
         items.append(arr)
@@ -61,8 +61,9 @@ def result():
 
         nazev = get_name()
         url = get_url()
+        date = return_date(bs)
 
-        menu_list, date = return_menu(bs)
+        menu_list = return_menu(bs)
 
         return (nazev, url, date, menu_list, lokalita)
     except Exception as e:
