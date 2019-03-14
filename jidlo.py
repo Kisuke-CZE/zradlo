@@ -30,7 +30,13 @@ modules = [ "kozlovna",
             "hurrycurry",
             "lacasa",
             "kantyna",
-            "kolkovna-budej" ]
+            "cervena-cibule",
+            "kolkovna-budej",
+            "gth-beta",
+            "momento-delta",
+            "alfa",
+            "michelska",
+            "melina" ]
 imported = []
 for i in modules:
     imported.append(importlib.import_module(i, __name__))
