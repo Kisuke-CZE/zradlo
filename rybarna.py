@@ -34,7 +34,7 @@ def return_menu(soup):
         text = item.text
         match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}]+)[\s]+([0-9]{2,3})$", text)
         if match is not None:
-            arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
+            arr = [re.sub('[{}]', '',match.group(1).strip()), match.group(2).strip() + " Kč"]
         else:
             continue
         items.append(arr)
