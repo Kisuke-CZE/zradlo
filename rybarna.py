@@ -53,6 +53,7 @@ def return_date(soup):
 
 
 def result():
+    lokalita = "brumlovka"
     try:
         file = get_file()
 
@@ -60,7 +61,6 @@ def result():
 
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
 
         menu_list, date = return_menu(bs)
 
@@ -69,13 +69,12 @@ def result():
         print(e)
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
         return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
     file = get_file()
 
     bs = prepare_bs(file)
-    # date = return_date(bs)
-    # menu_list = return_menu(bs)
+    #date = return_date(bs)
+    #menu_list = return_menu(bs)
     #print (date, menu_list)
