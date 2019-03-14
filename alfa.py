@@ -7,7 +7,7 @@ def get_url():
     return "https://www.zomato.com/cs/praha/restaurace-alfa-michle-praha-4//denní-menu"
 
 def get_name():
-    return "Port Stanley"
+    return "Alfa"
 
 def get_file():
     user_agent = {'User-agent': 'Mozilla/5.0'}
