@@ -7,13 +7,13 @@ from bs4 import BeautifulSoup
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    return "http://www.cateringmelodie.cz/lunch-garden-denni-menu-green_line"
+    return "http://www.lacasata.cz/"
 
 def get_name():
-    return "Lunch Garden Greenline"
+    return "La Casata"
 
 def get_file():
-    kantyna = requests.get("http://www.cateringmelodie.cz/lunch-garden-denni-menu-green_line")
+    kantyna = requests.get(get_url())
     return kantyna
 
 def prepare_bs(kantyna):
@@ -26,24 +26,25 @@ def prepare_bs(kantyna):
         return None
 
 def return_menu(soup):
-    today = time.strftime("%A").lower()
+    today = time.strftime("%A %-d.%-m.%Y").upper()
+    #print(today)
     items = []
     published = False
     date = "???"
-    a = soup.find("div", {"class": "daily-menu"}).findChildren()
-    for item in a:
-      if not published and item.name == 'h3' and item.text.strip() == today:
-        date = item.text.strip()
-        published = True
-      elif item.name == 'h3' and published:
-        published = False
-        break
-      if published == True and item.name == 'p':
-        nazev = item.text.strip()
-        cena = ''
-        arr = [nazev, cena]
-        items.append(arr)
-
+    a = soup.find("div", {"class": "element_content_box_4"}).find("div", {"class": "content"}).text
+    # print(a)
+    for item in a.splitlines():
+        #print(item)
+        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ–\"\(\)\,\-]+)[\s]+([0-9]{2,3},-)", item)
+        if match and published:
+            arr = [match.group(1).strip(), match.group(2).strip()]
+            items.append(arr)
+        elif not published and item.strip() == today:
+            date = item.strip()
+            published = True
+        elif published:
+            published = False
+            break
 
     return(date, items)
 
