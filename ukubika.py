@@ -26,7 +26,7 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     items = []
     #print(soup) tmi tmi-daily pb5 pt5
-    a = soup.find_all("div", { "class": "tmi tmi-daily pb5 pt5" })
+    a = soup.find_all("div", { "class": "tmi tmi-daily pb5 pt5 " })
     #print(a)
 
     for item in a:
@@ -53,13 +53,13 @@ def debug_print(date, menu):
     print(date)
 
 def result():
+    lokalita = "brumlovka"
     try:
         file = get_file()
 
         bs = prepare_bs(file)
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
         date = return_date(bs)
         menu_list = return_menu(bs)
 
@@ -70,7 +70,6 @@ def result():
         #return(get_name() + "- Chyba", "", "", [str(exp)])
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
         return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
@@ -78,8 +77,8 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    date = return_date(bs)
-    menu_list = return_menu(bs)
+    #date = return_date(bs)
+    #menu_list = return_menu(bs)
     # lol()
 
-    print(date, menu_list)
+    #print(date, menu_list)
