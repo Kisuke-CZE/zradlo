@@ -5,14 +5,14 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.michelska.cz/dnes.htm"
+    return "https://www.restaurantnesmysl.cz/denni-nabidka"
 
 def get_name():
-    return "Michelská"
+    return "ne-SMYSL"
 
 def get_file():
     kantyna = requests.get(get_url())
-    kantyna.encoding = 'Windows-1250'
+    kantyna.encoding = 'UTF-8'
     return kantyna
 
 def prepare_bs(kantyna):
@@ -25,33 +25,22 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    date = soup.find_all("p", {"class": "MsoNormal"})[1].text.strip().strip('Nabídka na')
-    a = soup.find("table").find_all("tr")
-    previous = ''
+    date = soup.find("div", { "class": "row p-4 border-bottom"}).find("span", {"class": "pl-2"}).text
+    a = soup.find("div", { "class": "container mt-4 mb-4" }).find_all("div", { "class": "row"})
     items = []
     for item in a:
-        # print(item)
-        # print(previous)
-        grid = item.find_all("td")
-        jidlo = grid[1].text.strip()
-        # print(grid[2].text)
-        predcena = re.match("([0-9]{2,3}[\s]*,-).*", grid[2].text.strip())
-        if predcena:
-            cena = predcena.group(1).strip()
-            if jidlo and cena:
-                if previous == 'Salát':
-                    jidlo = jidlo + ' salát'
-                arr = [jidlo, cena]
-                items.append(arr)
-            else:
-                continue
-        else:
-            previous = item.text.replace(':', '').strip()
-            continue
+      #print(item)
+      jidlo = item.find("div", { "class": "col-md-8" }).text.strip()
+      cena = item.find("div", { "class": "col-md-4 text-right" }).text.strip()
+      if jidlo and cena:
+          arr = [jidlo, cena]
+          items.append(arr)
+
     return(items, date)
 
 
 def result():
+    lokalita = "brumlovka"
     try:
         file = get_file()
 
@@ -59,7 +48,6 @@ def result():
 
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
 
         menu_list, date = return_menu(bs)
 
@@ -68,7 +56,6 @@ def result():
         print(e)
         nazev = get_name()
         url = get_url()
-        lokalita = "brumlovka"
         return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
