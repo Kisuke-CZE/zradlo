@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re, time, locale
+import requests, sys, re
 from datetime import datetime
 from bs4 import BeautifulSoup
-locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
     return "http://rybarna.net/denni-menu/"
@@ -42,13 +41,15 @@ def return_menu(soup):
     return(items)
 
 def return_date(soup):
-    today = time.strftime("%-d.%-m.%Y")
+    # today = time.strftime("%-d.%-m.%Y")
     # print(today)
     date = "???"
     a = soup.find("div", { "class": "entry-content" }).find_all("p")
     for item in a:
-      if item.text == today:
-          date = item.text
+      match = re.match("([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", item.text.strip())
+      if match:
+          date = match.group(1)
+          break
     return(date)
 
 
@@ -76,6 +77,6 @@ if __name__ == "__main__":
     file = get_file()
 
     bs = prepare_bs(file)
-    #date = return_date(bs)
-    #menu_list = return_menu(bs)
-    #print (date, menu_list)
+    # date = return_date(bs)
+    # menu_list = return_menu(bs)
+    # print (date, menu_list)
