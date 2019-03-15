@@ -4,13 +4,13 @@
 ## Instalace
 * Vyžaduje python3, flask, flask-cache, BeautifulSoup, antiword, apache2 a nastavení z http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 ```shell
-$ apt-get install python3 python3-pip antiword # deb
+$ apt install python3 python3-pip antiword poppler-utils # deb
 ```
 ```shell
-$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2
+$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2 Flask-Caching
 ```
 ```shell
-$ apt-get install libapache2-mod-wsgi
+$ apt install libapache2-mod-wsgi
 ```
 
 ## Konfigurace
