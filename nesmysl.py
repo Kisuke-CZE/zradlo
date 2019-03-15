@@ -31,7 +31,7 @@ def return_menu(soup):
     for item in a:
       #print(item)
       jidlo = item.find("div", { "class": "col-md-8" }).text.strip()
-      cena = item.find("div", { "class": "col-md-4 text-right" }).text.strip()
+      cena = item.find("div", { "class": "col-md-4 text-right" }).text.replace('Kč','').strip()
       if jidlo and cena:
           arr = [jidlo, cena]
           items.append(arr)
@@ -63,5 +63,5 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #menu_list, date = return_menu(bs)
-    #print (date, menu_list)
+    menu_list, date = return_menu(bs)
+    print (date, menu_list)
