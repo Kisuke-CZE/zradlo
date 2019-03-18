@@ -39,18 +39,19 @@ def return_menu(antiword):
         match = re.match("\s*([A-Za-z0-9ěščřžýáíéůúťňóöŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ \t,\-–“\(\)´\/]+)[\s\n]+([0-9]+)\s+Kč?\s*", item)
         #print(item)
         if match and published:
-            #print(item)
+            # print(item)
             nazev = re.sub(r'\s+', ' ',match.group(1).strip())
             if match.group(2):
                 cena = match.group(2).strip()
             if nazev and cena:
                 items.append([nazev, cena + ' Kč'])
-
-        if item.strip() == today:
-            date = item.strip()
+                continue
+        match_date = re.match("(" + today + ")\s+.*$", item.strip())
+        if match_date:
+            date = match_date.group(1)
             published = True
 
-        if published and not item.strip():
+        if published and items and not item.strip():
             break
 
     return (date, items)
