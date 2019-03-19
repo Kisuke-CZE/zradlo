@@ -42,7 +42,7 @@ modules = [ "kozlovna",
             "michelska",
             "ukubika",
             "rybarna",
-            "lacasata"
+            "lacasata",
             "touchofindia" ]
 imported = []
 for i in modules:
