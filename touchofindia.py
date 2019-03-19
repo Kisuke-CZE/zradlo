@@ -3,8 +3,6 @@
 import requests, sys, re, time, locale
 from bs4 import BeautifulSoup
 
-# locale.setlocale(locale.LC_ALL,'cs_CZ.UTF-8')
-locale.setlocale(locale.LC_ALL,'en_US.utf8')
 
 def get_url():
     return "https://touchofindia.cz/daily-lunch-menu"
@@ -26,7 +24,9 @@ def prepare_bs(kantyna):
         return None
 
 def return_menu(soup):
+    locale.setlocale(locale.LC_ALL,'en_US.utf8')
     today = time.strftime(".*%-d(st|nd|rd|th)\s+%B.*$").lower()
+    locale.setlocale(locale.LC_ALL,'')
     #print(today)
     items = []
     date = "???"
