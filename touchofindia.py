@@ -31,13 +31,13 @@ def return_menu(soup):
     items = []
     date = "???"
     a = soup.find_all("div", {"class": "menu-category"})
-    #print(a)
+    # print(a)
     for menu in a:
         preddatum = menu.findChildren()[1]
         #print(preddatum.text)
         match = re.match(today, preddatum.text.lower())
         if match:
-            date = re.match('.*\(([\w\'\s]+)\).*$', preddatum.text).group(1)
+            date = re.match('.*\(([\w\',\s]+)\).*$', preddatum.text).group(1)
             #print(menu)
             b = menu.find("div", {"data-ux": "Block"}).findChildren("div", {"data-ux": "Block"}, recursive=False)
             for item in b:
