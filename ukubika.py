@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re
+import requests, sys, re, time, locale
 from bs4 import BeautifulSoup
 
 def get_url():
@@ -11,7 +11,7 @@ def get_name():
 
 def get_file():
     user_agent = {'User-agent': 'Mozilla/5.0'}
-    kantyna = requests.get("https://www.zomato.com/cs/praha/u-kubíka-michle-praha-4/denní-menu", headers = user_agent)
+    kantyna = requests.get(get_url(), headers = user_agent)
     kantyna.encoding = 'UTF-8'
     return kantyna
 
@@ -24,30 +24,26 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
+    locale.setlocale(locale.LC_ALL,'')
     items = []
-    #print(soup) tmi tmi-daily pb5 pt5
-    a = soup.find_all("div", { "class": "tmi tmi-daily pb5 pt5 " })
-    #print(a)
+    today = time.strftime("%-d.%-m. %Y")
+    # print(today)
+    date = "???"
+    a = soup.find("div", { "class": "daily-wrapper" }).find_all("div", { "class": "daily-item" })
 
     for item in a:
       #print(item)
-      #jidlo = item.find_all("div", { "class": "row" })[0].text.replace('\n', '').strip()
-      nazev = item.find_all("div", { "class": "row" })[0].text
-      #print(nazev)
-      jidlo = re.sub(r'\n[\s]*', ' ', nazev).strip()
-      cena = item.find_all("div", { "class": "row" })[1].text.strip()
-      if cena:
+      nazev = item.find("div", { "class": "daily-itemName" }).text.replace('Polévka:','').replace('\xa0',' ').strip()
+      cena = int(item.find("div", { "class": "daily-itemPrice" }).text.strip().strip(" Kč"))
+      if nazev == today:
+        date = nazev
+        continue
+      if cena > 0:
         arr = []
-        arr = [jidlo, cena]
+        arr = [nazev, str(cena) + " Kč"]
         items.append(arr)
 
-    return items
-
-def return_date(soup):
-    #class="tmi-group-name bold fontsize3 pb5 bb"
-    b = soup.find("div", { "class": "tmi-group-name bold fontsize3 pb5 bb" }).text.strip()
-    #print(b)
-    return(b)
+    return date, items
 
 def debug_print(date, menu):
     print(date)
@@ -60,10 +56,9 @@ def result():
         bs = prepare_bs(file)
         nazev = get_name()
         url = get_url()
-        date = return_date(bs)
-        menu_list = return_menu(bs)
+        date, menu_list = return_menu(bs)
 
-        print(date, menu_list)
+        #print(date, menu_list)
         return(nazev, url, date, menu_list, lokalita)
     except Exception as exp:
         print(exp)
@@ -78,7 +73,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    #menu_list = return_menu(bs)
+    date, menu_list = return_menu(bs)
     # lol()
 
-    #print(date, menu_list)
+    print(date, menu_list)
