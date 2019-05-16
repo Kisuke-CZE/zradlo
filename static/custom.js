@@ -8,7 +8,7 @@ function lol()
     var cislo = this.id.split("_")[1];
     console.log(this.id + "; value = " + cookie);
     if(cookie === undefined) {
-      if ( cislo === "brumlovka" ) {
+      if ( cislo === "holesovice" ) {
         cookie = 0
       }
       else {

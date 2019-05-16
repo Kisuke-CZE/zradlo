@@ -26,18 +26,19 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     locale.setlocale(locale.LC_ALL,'')
     items = []
-    today = time.strftime("%-d.%-m. %Y")
-    # print(today)
-    date = "???"
+    today = time.strftime("%-d.%-m.%Y")
+    #print(today)
+    # date = "???"
+    date = soup.find("div", { "class": "daily-wrapper" }).find("div", { "class": "daily-date" }).text.strip()
     a = soup.find("div", { "class": "daily-wrapper" }).find_all("div", { "class": "daily-item" })
 
     for item in a:
       #print(item)
       nazev = item.find("div", { "class": "daily-itemName" }).text.replace('Polévka:','').replace('\xa0',' ').strip()
       cena = int(item.find("div", { "class": "daily-itemPrice" }).text.strip().strip(" Kč"))
-      if nazev == today:
-        date = nazev
-        continue
+      #if nazev == today:
+      #  date = nazev
+      #  continue
       if cena > 0:
         arr = []
         arr = [nazev, str(cena) + " Kč"]
@@ -64,7 +65,7 @@ def result():
         print(exp)
         #return(get_name() + "- Chyba", "", "", [str(exp)])
         nazev = get_name()
-        url = get_url()
+        usrl = get_url()
         return (nazev, url, "Menu nenalezeno", [], lokalita)
 
 if __name__ == "__main__":
