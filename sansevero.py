@@ -4,14 +4,14 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "https://www.zomato.com/cs/praha/restaurace-alfa-michle-praha-4/denní-menu"
+    return "http://budejovicka.pizzeriasansevero.cz/"
 
 def get_name():
-    return "Alfa"
+    return "San Severo"
 
 def get_file():
     user_agent = {'User-agent': 'Mozilla/5.0'}
-    kantyna = requests.get("https://www.zomato.com/cs/praha/restaurace-alfa-michle-praha-4/denní-menu", headers = user_agent)
+    kantyna = requests.get("https://www.zomato.com/cs/praha/san-severo-michle-praha-4/denní-menu", headers = user_agent)
     kantyna.encoding = 'UTF-8'
     return kantyna
 
