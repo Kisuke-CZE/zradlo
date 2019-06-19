@@ -35,6 +35,8 @@ def return_menu(soup):
       nazev = item.find_all("div", { "class": "row" })[0].text
       #print(nazev)
       jidlo = re.sub(r'\n[\s]*', ' ', nazev).strip()
+      if re.match("^-.*", jidlo):
+        jidlo = "Pizza "+jidlo
       cena = item.find_all("div", { "class": "row" })[1].text.strip()
       if cena:
         arr = []
