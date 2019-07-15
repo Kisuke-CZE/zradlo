@@ -43,7 +43,6 @@ modules = [ "kozlovna",
             "ukubika",
             "rybarna",
             "lacasata",
-            "touchofindia",
             "pragos",
             "sansevero" ]
 imported = []
