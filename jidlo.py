@@ -37,14 +37,14 @@ modules = [ "kozlovna",
             "momento-delta",
             "gth-beta",
             "melina",
+            "alfa",
             "nesmysl",
             "greenline",
-            "alfa",
             "michelska",
             "ukubika",
+            "pragos",
             "rybarna",
             "lacasata",
-            "pragos",
             "sansevero" ]
 imported = []
 for i in modules:
