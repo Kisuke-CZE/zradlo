@@ -26,16 +26,16 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     locale.setlocale(locale.LC_ALL,'')
     items = []
-    today = time.strftime("%-d.%-m.%Y")
+    # today = time.strftime("%-d.%-m.%Y")
     #print(today)
     # date = "???"
     date = soup.find("div", { "class": "daily-wrapper" }).find("div", { "class": "daily-date" }).text.strip()
     a = soup.find("div", { "class": "daily-wrapper" }).find_all("div", { "class": "daily-item" })
 
     for item in a:
-      #print(item)
+      # print(item)
       nazev = item.find("div", { "class": "daily-itemName" }).text.replace('Polévka:','').replace('\xa0',' ').strip()
-      cena = int(item.find("div", { "class": "daily-itemPrice" }).text.strip().strip(" Kč"))
+      cena = int(item.find("div", { "class": "daily-itemPrice" }).text.strip().strip(" [Kk]č"))
       #if nazev == today:
       #  date = nazev
       #  continue
