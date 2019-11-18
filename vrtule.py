@@ -20,10 +20,10 @@ def get_file():
     html = response.text
     bs = BeautifulSoup(html, "html.parser")
 
-    content_div = bs.find_all("div", {"class": "box_content"})[-1]
-
+    content_div = bs.find_all("div", {"class": "box_content"})[-2]
     for a in content_div.find_all("a", href=True):
         url = a["href"]
+        #print(url)
         if ".doc" in url:
             doc_url = url
 
