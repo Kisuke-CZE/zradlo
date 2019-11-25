@@ -16,7 +16,7 @@ def get_url():
 
 def get_file():
     print("Stahuji menu")
-    pdf_stream = requests.get(get_url(), stream=True, timeout=3)
+    pdf_stream = requests.get(get_url(), stream=True, timeout=6)
     tmp_fd,tmp_path = tempfile.mkstemp()
     with open(tmp_path, "wb") as f:
       for chunk in pdf_stream.iter_content(chunk_size=1024):
