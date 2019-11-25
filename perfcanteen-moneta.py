@@ -9,20 +9,22 @@ from subprocess import check_output
 
 locale.setlocale(locale.LC_ALL,'')
 
-_,TMP = tempfile.mkstemp()
-
 def get_url():
     return "http://menu.perfectcanteen.cz/pdf/24/cz/price/a3"
 
 def get_file():
-    pdf_stream = requests.get(get_url(), stream=True)
-    with open(TMP, "wb") as f:
-        for chunk in pdf_stream.iter_content(chunk_size=1024):
-            f.write(chunk)
+    print("Stahuji menu")
+    pdf_stream = requests.get(get_url(), stream=True, timeout=3)
+    tmp_fd,tmp_path = tempfile.mkstemp()
+    with open(tmp_path, "wb") as f:
+      for chunk in pdf_stream.iter_content(chunk_size=1024):
+        f.write(chunk)
+    os.close(tmp_fd)
 
-
-
-    antiword = check_output(["pdftotext", "-layout", TMP, "-"]).decode("utf8")
+    print("menu stazeno, prevadim na text")
+    antiword = check_output(["pdftotext", "-layout", tmp_path, "-"]).decode("utf8")
+    os.remove(tmp_path)
+    print("prevedeno na text")
     return antiword
 
 def get_name():
@@ -81,6 +83,5 @@ def result():
 if __name__ == "__main__":
     page = get_file()
     date, menu_list = return_menu(page)
-    os.remove(TMP)
     debug_print(date, menu_list)
     #print(result())
