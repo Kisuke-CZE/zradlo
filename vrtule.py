@@ -13,7 +13,7 @@ def get_url():
     return "http://uvrtulejidelna.webnode.cz/sluzby/"
 
 def get_file():
-    response = requests.get(get_url())
+    response = requests.get(get_url(), timeout=6)
 
     if response.status_code != 200:
         raise requests.RequestException("Error: Vrtule response error")
@@ -27,7 +27,7 @@ def get_file():
         if ".doc" in url:
             doc_url = url
 
-    doc_stream = requests.get(doc_url, stream=True)
+    doc_stream = requests.get(doc_url, stream=True, timeout=6)
     with open(TMP, "wb") as f:
         for chunk in doc_stream.iter_content(chunk_size=1024):
             f.write(chunk)
