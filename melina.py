@@ -8,7 +8,7 @@ def get_url():
     return "http://www.melina.cz/michelska/"
 
 def get_name():
-    return "Melina Michelská"
+    return "Melina"
 
 def get_file():
     kantyna = requests.get(get_url())
@@ -67,5 +67,5 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #menu_list, date = return_menu(bs)
-    #print (date, menu_list)
+    menu_list, date = return_menu(bs)
+    print (date, menu_list)

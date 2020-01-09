@@ -32,10 +32,9 @@ def return_menu(soup):
     b = a.find_all("table")[1].find_all("tr")
     items = []
     for item in b:
-        #print(item)
         grid = item.find_all("td")
         jidlo = grid[2].text.strip()
-        cena = grid[4].text.strip() + " Kč"
+        cena = grid[3].text.strip() + " Kč"
         if jidlo is not None and cena is not None:
             arr = [jidlo, cena]
             items.append(arr)
@@ -70,5 +69,5 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #menu_list, date = return_menu(bs)
-    #print (date, menu_list)
+    menu_list, date = return_menu(bs)
+    print (date, menu_list)
