@@ -27,19 +27,19 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     today = time.strftime("%A %-d.%-m.%Y").upper()
-    #print(today)
+    # print(today)
     items = []
     published = False
     date = "???"
     a = soup.find("div", {"class": "element_content_box_4"}).find("div", {"class": "content"}).text
-    # print(a)
+    #print(a)
     for item in a.splitlines():
         #print(item)
         match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ–\"\(\)\,\-]+)[\s]+([0-9]{2,3},-)", item)
         if match and published:
             arr = [match.group(1).strip(), match.group(2).strip()]
             items.append(arr)
-        elif not published and item.strip() == today:
+        elif not published and item.strip().upper() == today:
             date = item.strip()
             published = True
         elif published:
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     bs = prepare_bs(file)
 
     #date = return_date(bs)
-    #date, menu_list = return_menu(bs)
-    #print(date, menu_list)
+    date, menu_list = return_menu(bs)
+    print(date, menu_list)
 
     #debug_print(date, menu_list)

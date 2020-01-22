@@ -26,8 +26,8 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     items = []
     #print(soup)
-    a = soup.find("div", { "class": "tmi-group mtop" }).find_all("div", { "class": "tmi tmi-daily pb5 pt5 " })
-    #print(a)
+    a = soup.find("div", { "class": "tmi-group mtop" }).find_all("div", { "class": "tmi tmi-daily pb5 pt5" })
+    # print(a)
 
     for item in a:
       #print(item)
