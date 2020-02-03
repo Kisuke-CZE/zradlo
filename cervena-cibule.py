@@ -28,7 +28,9 @@ def return_menu(soup):
 
     a = soup.find("div", { "class": "content" })
     date = a.find_all("strong")[0].text
-    b = a.find_all("p")
+    b = a.find_all("address")
+    c = a.find_all("p")
+    b = b + c
     items = []
     for item in b:
         # print(item)
@@ -71,5 +73,5 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #menu_list, date = return_menu(bs)
-    #print (date, menu_list)
+    menu_list, date = return_menu(bs)
+    print (date, menu_list)
