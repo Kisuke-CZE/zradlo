@@ -35,7 +35,7 @@ def return_menu(soup):
         grid = item.find_all("td")
         jidlo = grid[2].text.strip()
         cena = grid[3].text.strip() + " Kč"
-        if jidlo is not None and cena is not None:
+        if jidlo is not None and cena is not None and jidlo:
             arr = [jidlo, cena]
             items.append(arr)
         else:
