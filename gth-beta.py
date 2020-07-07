@@ -28,13 +28,12 @@ def return_menu(soup):
 
     a = soup.find("div", { "class": "day_wrapper" })
     date = a.h4.text
-    b = a.find_all("div", { "class": "meat_wrapper" })
+    b = a.find_all("div", { "class": "meal_wrapper" })
     items = []
     for item in b:
-        # print(item)
-        grid = item.find_all("div", { "class": "col-xs-8" })
-        jidlo = grid[0].text.strip()
-        cena = grid[2].text.strip()
+        #print(item)
+        jidlo = item.find("div", { "class": "col-xs-6" }).text.strip()
+        cena = item.find_all("div", { "class": "col-xs-8" })[1].text.strip()
         if jidlo is not None and cena is not None:
             arr = [jidlo, cena]
             items.append(arr)
