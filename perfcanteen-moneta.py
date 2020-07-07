@@ -23,6 +23,7 @@ def get_file():
 
     print("menu stazeno, prevadim na text")
     antiword = check_output(["pdftotext", "-layout", tmp_path, "-"]).decode("utf8")
+    #print(antiword)
     os.remove(tmp_path)
     print("prevedeno na text")
     return antiword
@@ -33,13 +34,16 @@ def get_name():
 def return_menu(antiword):
     # datum
     today = time.strftime("%A")
+    # today = "Pátek"
     items = []
     published = False
+    prev_match = False
     date = "???"
 
     for item in antiword.splitlines():
         match = re.match("\s*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ \t,\-–“\(\)´\/]+)[\s\n]+([0-9]+)\s+Kč?\s*", item)
         # print(item)
+        match_date = re.match("(" + today + ").*$", item.strip())
         if match and published:
             # print(item)
             nazev = re.sub(r'\s+', ' ',match.group(1).strip())
@@ -47,14 +51,20 @@ def return_menu(antiword):
                 cena = match.group(2).strip()
             if nazev and cena:
                 items.append([nazev, cena + ' Kč'])
+                prev_match = True
                 continue
-        match_date = re.match("(" + today + ").*$", item.strip())
-        if match_date:
+        elif match_date:
             date = match_date.group(1)
             published = True
-
-        if published and items and not item.strip():
+            prev_match = True
+        elif published and not item.strip() and prev_match:
+            prev_match = False
+            continue
+        elif published and not item.strip() and not prev_match:
             break
+        elif not match:
+            prev_match = False
+            continue
 
     return (date, items)
 
