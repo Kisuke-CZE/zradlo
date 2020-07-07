@@ -1,32 +1,11 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re, time, locale
+import requests, sys, re
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-locale.setlocale(locale.LC_ALL,'')
-
 def get_url():
-    base_url = "http://gth.cz"
-    menu_url = "/provoz/bbc-beta/jidelni-listek"
-    main_menu = requests.get(base_url+menu_url)
-    if main_menu is not None and main_menu.status_code == 200:
-        today = time.strftime("%A %-d.%-m.%Y")
-        html = main_menu.text
-        soup = BeautifulSoup(html, 'html.parser')
-        dny = soup.find_all("a", { "class": "btn btn-default noTextDec" })
-        # print(dny)
-        # print(today)
-        for den in dny:
-            if today in den.text:
-                link = base_url+den['href']
-                break
-        if link is not None:
-            return link
-        else:
-            return "Error"
-    else:
-        return "Error"
+    return "http://gth.cz/provoz/bbc-beta/jidelni-listek"
 
 def get_name():
     return "GTH Beta"
