@@ -31,22 +31,28 @@ def return_menu(soup):
     for item in a:
         #print(item)
         text = item.text
-        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}]+)[\s]+([0-9\/]+)$", text)
+        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9\/]+)$", text)
         if match is not None:
             arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
             items.append(arr)
         else:
             continue
-    a = soup.find("div", { "class": "entry-content" }).find("ol").find_all("li")
-    for item in a:
-        # print(item)
-        text = item.text
-        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}]+)[\s]+([0-9]{2,3})$", text)
-        if match is not None:
-            arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
-            items.append(arr)
-        else:
-            continue
+    #a = soup.find("div", { "class": "entry-content" }).find_all("p")
+    # print(a)
+
+    try:
+        a = soup.find("div", { "class": "entry-content" }).find("ol").find_all("li")
+        for item in a:
+            # print(item)
+            text = item.text
+            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9]{2,3})$", text)
+            if match is not None:
+                arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
+                items.append(arr)
+            else:
+                continue
+    except AttributeError:
+        pass
 
     return(items)
 
@@ -56,7 +62,8 @@ def return_date(soup):
     date = "???"
     a = soup.find("div", { "class": "entry-content" }).find_all("p")
     for item in a:
-      match = re.match("([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", item.text.strip())
+      # match = re.match("([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})", item.text.strip())
+      match = re.match("Denní menu\s?:\s+([0-9]{1,2}\.\s?[A-Za-zěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ]+)", item.text.strip())
       if match:
           date = match.group(1)
           break
