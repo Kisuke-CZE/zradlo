@@ -60,7 +60,7 @@ def result():
         url = get_url()
         lokalita = "brumlovka"
 
-        menu_list, date = return_menu(bs)
+        date, menu_list = return_menu(bs)
 
         return (nazev, url, date, menu_list, lokalita)
     except Exception as e:
