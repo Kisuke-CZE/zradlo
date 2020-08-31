@@ -5,8 +5,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 def get_url():
-    # return "http://www.michelska.cz/dnes.htm"
-    return "https://www.whatsmyua.info/"
+    return "http://www.michelska.cz/dnes.htm"
 
 def get_name():
     return "Michelská"
