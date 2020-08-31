@@ -10,7 +10,8 @@ def get_name():
     return "Motoburger"
 
 def get_file():
-    kantyna = requests.get(get_url())
+    user_agent = {'User-agent': 'Mozilla/5.0'}
+    kantyna = requests.get(get_url(), headers = user_agent)
     kantyna.encoding = 'UTF-8'
     return kantyna
 

@@ -5,13 +5,15 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "http://www.michelska.cz/dnes.htm"
+    # return "http://www.michelska.cz/dnes.htm"
+    return "https://www.whatsmyua.info/"
 
 def get_name():
     return "Michelská"
 
 def get_file():
-    kantyna = requests.get(get_url())
+    user_agent = {'User-agent': 'Mozilla/5.0'}
+    kantyna = requests.get(get_url(), headers = user_agent)
     kantyna.encoding = 'Windows-1250'
     return kantyna
 
@@ -76,5 +78,5 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    #menu_list, date = return_menu(bs)
-    #print (date, menu_list)
+    menu_list, date = return_menu(bs)
+    print (date, menu_list)
