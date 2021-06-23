@@ -27,8 +27,10 @@ def prepare_bs(kantyna):
         return None
 
 def return_menu(soup):
-    today = time.strftime("%A %-d.%-m.%Y").upper()
-    # print(today)
+    #today = time.strftime("%A %-d.%-m.%Y").upper()
+    today = time.strftime("%A %-d.%-m.").upper()
+
+    print(today)
     items = []
     published = False
     date = "???"

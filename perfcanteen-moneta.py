@@ -58,10 +58,11 @@ def return_menu(antiword):
             published = True
             prev_match = True
         elif published and not item.strip() and prev_match:
-            prev_match = False
-            continue
-        elif published and not item.strip() and not prev_match:
+            #prev_match = False
+            #continue
             break
+        #elif published and not item.strip() and not prev_match:
+        #    break
         elif not match:
             prev_match = False
             continue

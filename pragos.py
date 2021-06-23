@@ -25,7 +25,8 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     items = []
-    date = soup.find("h3", { "class": "tbk__title" }).text.strip()
+    date = soup.find("div", { "class": "znColumnElement-innerContent" }).find("h1", { "class": "dn-heading" }).text.strip("DENNÍ MENU").strip()
+    # print(date)
     a = soup.find_all("div", { "class": "priceListElement-itemRight" })
 
     for item in a:

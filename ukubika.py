@@ -30,7 +30,7 @@ def return_menu(soup):
     # print(today)
     # date = "???"
     date = soup.find("div", { "class": "daily-wrapper" }).find("div", { "class": "daily-date" }).text.strip()
-    a = soup.find("div", { "class": "daily-wrapper" }).find_all("div", { "class": "daily-item" })
+    a = soup.find("div", { "class": "daily-wrapper" }).find("div", { "class": "daily-day" }).find_all("div", { "class": "daily-item" })
 
     for item in a:
       #print(item)
