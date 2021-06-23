@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re
-from datetime import datetime
+import requests, sys, re, time, locale
+# from datetime import datetime
 from bs4 import BeautifulSoup
+
+locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
     return "http://www.cervena-cibule.cz/cz/poledni-menu/"
@@ -27,7 +29,15 @@ def prepare_bs(kantyna):
 def return_menu(soup):
 
     a = soup.find("div", { "class": "content" })
-    date = a.find_all("strong")[0].text
+    date = "???"
+    today = time.strftime("%A %-d.%-m. %Y")
+    # print(today)
+    randomtext = a.find_all("strong")
+    for item in randomtext:
+        if item.text.strip() == today:
+            date = item.text.strip()
+            break
+    # date = a.find_all("strong")[0].text
     b = a.find_all("address")
     c = a.find_all("p")
     b = b + c
