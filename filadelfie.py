@@ -34,7 +34,7 @@ def get_name():
 def return_menu(antiword):
     # datum
     today = time.strftime("%A").upper()
-    print(today)
+    # print(today)
     # today = "Pátek"
     items = []
     published = False
@@ -52,9 +52,9 @@ def return_menu(antiword):
             #print(item)
             # nazev = re.sub(r'\s+', ' ',match.group(2).strip())
             nazev = match.group(3).strip()
-            if match.group(2) == "Pizza / Gyros":
+            if nazev and match.group(2) == "Pizza / Gyros":
                 nazev = nazev + " (" + match.group(2) + ")"
-            # print(nazev + ": " + match.group(4))
+            #print(nazev + ": " + match.group(4))
             if match.group(4):
                 cena = match.group(4).strip()
                 #print(cena + ": " + match.group(3))
