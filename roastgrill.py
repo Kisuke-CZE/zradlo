@@ -31,6 +31,7 @@ def return_menu(soup):
     a = soup.find("div", { "class": "welcome" }).find_all("span")
     date = "???"
     today = time.strftime("%A %-d.%-m.%Y")
+    published = False
     #print(today)
     items = []
     for item in a:
@@ -39,12 +40,13 @@ def return_menu(soup):
         matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
         if item.text.strip() == today:
             date = item.text.strip()
+            published = True
             continue
-        elif matchpolevka:
+        elif published and matchpolevka:
             arr = [matchpolevka.group(1).strip(), matchpolevka.group(2).strip()]
             items.append(arr)
             continue
-        elif matchjidlo:
+        elif published and matchjidlo:
             arr = [matchjidlo.group(1).strip(), matchjidlo.group(2).strip()]
             items.append(arr)
             continue
