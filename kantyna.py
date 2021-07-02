@@ -23,14 +23,13 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    a = soup.find_all("div", { "class": "text-content" })[2]
-    #print(a)
-    while a.p.find("p"):
-      a = a.p
-    b = a.find_all("p")
-    #b = a.find_all("strong")
+    a = soup.find("div", { "class": "content ez cf" }).find_all("div", { "class": "c-c cf" })
+    datum = a[1].text.strip().strip('Denní nabídka ')
+    #print (datum)
+    zradla = a[3].find_all("p")
+
     items = []
-    for item in b:
+    for item in zradla:
         #print(item)
         if item.text:
             text = item.text
@@ -42,16 +41,8 @@ def return_menu(soup):
             else:
                 continue
             items.append(arr)
-    return items
+    return datum, items
 
-
-def return_date(soup):
-    b = soup.find_all("div", { "class": "text-content" })
-    #print(b)
-    b = b[1].find_all('h3')[0].text
-    #b = b[0].h3.string
-    b = b.replace("Denní nabídka ", "")
-    return(b)
 
 def debug_print(date, menu):
     print(date)
@@ -82,9 +73,5 @@ if __name__ == "__main__":
     file = get_file()
 
     bs = prepare_bs(file)
-
-    date = return_date(bs)
-    menu_list = return_menu(bs)
-    # lol()
-
-    #debug_print(date, menu_list)
+    date, menu_list = return_menu(bs)
+    debug_print(date, menu_list)

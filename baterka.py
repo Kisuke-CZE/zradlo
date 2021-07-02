@@ -4,7 +4,7 @@ import requests, sys, re
 from bs4 import BeautifulSoup
 
 def get_url():
-    return "https://www.baterka.com/delnicka-holesovice"
+    return "https://baterka.com/#menu"
 
 def get_name():
     return "Baterka"
@@ -25,35 +25,19 @@ def prepare_bs(kantyna):
 def return_menu(soup):
     items = []
 
-    a = soup.find_all("table", { "class": "table" })
-    b = soup.find_all("div", { "class": "sprocket-tabs-panel" })
-    #print(b)
+    a = soup.find("div", { "class": "tab-content1" }).find("div", { "class": "tab active" }).find_all("div", { "class": "df-spl-row name-price" })
 
-    for item in a[0].find_all("tr"):
-        arr = []
-        #print(item.text)
-        if item.text.strip() != "":
-          # print(item)
-          nazev = item.find_all("td")[0].text.strip()
-          cena = item.find_all("td")[1].text.strip()
-          arr = [nazev, cena]
-          items.append(arr)
-
-    for item in b[0].find_all("p"):
-      jidlo = item.text
-      #print(jidlo)
-      match = re.match("(.*)[\s]+([0-9]{2,3}[\s]*[KkČč\,\-]+)", jidlo)
-      if match is not None:
-          arr = []
-          arr = [match.group(1).strip(), match.group(2).strip()]
-      else:
-          continue
-      items.append(arr)
+    for item in a:
+        nazev = item.find("div", { "class": "name a-tag" }).text.strip()
+        cena = item.find("div", { "class": "spl-price a-tag" }).text.strip()
+        #print(nazev + ": " + cena)
+        if nazev and cena:
+          items.append([nazev, cena])
 
     return items
 
 def return_date(soup):
-    b = soup.find("div", { "class": "rt-block box5" }).find("div", { "class": "gantry-width-50 gantry-width-block" }).text.strip()
+    b = soup.find("div", { "class": "custom-description-section" }).find_all(text=True)[0].strip()
     #print(b)
     return(b)
 
@@ -90,4 +74,4 @@ if __name__ == "__main__":
     menu_list = return_menu(bs)
     # lol()
 
-    #print(date, menu_list)
+    print(date, menu_list)
