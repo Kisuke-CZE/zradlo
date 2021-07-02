@@ -56,8 +56,7 @@ def result():
         nazev = get_name()
         url = get_url()
         lokalita = "holesovice"
-        date = return_date(bs)
-        menu_list = return_menu(bs)
+        date, menu_list = return_menu(bs)
 
         #print(date, menu_list)
         return(nazev, url, date, menu_list, lokalita)
