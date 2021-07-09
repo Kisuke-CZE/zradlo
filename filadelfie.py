@@ -42,14 +42,14 @@ def return_menu(antiword):
     # print(antiword.splitlines())
 
     for item in antiword.splitlines():
-        match = re.match("^([0-9,]+[gl])?[ ]{2,999}(Polévka A|Polévka B|Česká kuchyně|Standard|Veggie / Sladké|Vital Office|Minutka / Grill|Premium|Pizza / Gyros|Denní salát)[ ]{2,999}([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[ ]{2,999}([0-9]{2,4})Kč$", item)
-        #print(item)
+        match = re.match("^([0-9,]+[gl])?[ ]{2,999}(Polévka A|Polévka B|Česká kuchyně|Standard|Veggie / Sladké|Vital Office|Minutka / Grill|Premium|Pizza / Gyros|Denní salát)[ ]{2,999}([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´\"]+)[ ]{2,999}([0-9]{2,4})\s{0,20}Kč$", item)
+        # print(item)
         match_date = re.match("(" + today + ").*$", item.strip())
         #someday = re.match("^(?!POLÉVKA)[A-ZŤĚŠČŘŽŇÝÁÍÉÚŮÓÖ]+$", item.strip())
         someday = re.match("(PONDĚLÍ|ÚTERÝ|STŘEDA|ČTVRTEK|PÁTEK|SOBOTA|NEDĚLĚ)$", item.strip())
         if match and published:
             #print(match.group(2))
-            #print(item)
+            # print(item)
             # nazev = re.sub(r'\s+', ' ',match.group(2).strip())
             nazev = match.group(3).strip()
             if nazev and match.group(2) == "Pizza / Gyros":
