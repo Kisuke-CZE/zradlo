@@ -52,12 +52,12 @@ def return_menu(antiword):
                 cena = match.group(2).strip()
             if nazev and cena:
                 items.append([nazev, cena + ' Kč'])
-                # prev_match = True
+                prev_match = True
                 continue
         elif match_date:
             date = match_date.group(1)
             published = True
-            # prev_match = True
+            prev_match = True
         elif published and not item.strip() and prev_match:
             prev_match = False
             continue
