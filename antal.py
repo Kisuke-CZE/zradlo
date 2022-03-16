@@ -29,11 +29,11 @@ def return_menu(soup):
     locale.setlocale(locale.LC_ALL,'cs_CZ.UTF-8')
     today = time.strftime("%A %-d.%-m.%Y")
     #print(today)
-    a = soup.find_all("div", { "class": "title-box" })
-    #print(a)
+    a = soup.find_all("div", { "class": "menu-item-header" })
+    # print(a)
     for item in a:
         nazev = item.find("h3").text.strip()
-        cena = item.find("span", { "class": "price" }).text.strip('Kč ')
+        cena = item.find("span", { "class": "menu-item-price" }).text.strip(',-')
         if nazev and int(cena) > 1:
             items.append([nazev, cena + ' Kč'])
 
