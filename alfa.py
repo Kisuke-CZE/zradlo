@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re
+import requests, sys, re, time, locale
 from bs4 import BeautifulSoup
 
 def get_url():
@@ -25,29 +25,24 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     items = []
-    #print(soup)
-    a = soup.find("div", { "class": "tmi-group mtop" }).find_all("div", { "class": "tmi tmi-daily pb5 pt5" })
-    # print(a)
+    date = "???"
+    locale.setlocale(locale.LC_ALL,'cs_CZ.UTF-8')
+    today = time.strftime("%A %-d.%-m.%Y")
+    a = soup.main.div.find_all("section", recursive=False)[3].div.find_all("div", recursive=False)[1]
 
     for item in a:
-      #print(item)
-      #jidlo = item.find_all("div", { "class": "row" })[0].text.replace('\n', '').strip()
-      nazev = item.find_all("div", { "class": "row" })[0].text
-      #print(nazev)
-      jidlo = re.sub(r'\n[\s]*', ' ', nazev).strip()
-      cena = item.find_all("div", { "class": "row" })[1].text.strip()
-      if cena:
-        arr = []
-        arr = [jidlo, cena]
-        items.append(arr)
+      # print(item)
+      if item.find("div"):
+        jidlo = item.div.find_all("div")
+        if jidlo:
+          nazev = jidlo[0].text
+          cena = jidlo[1].text.strip(' Kč').replace('\xa0','')
+          if re.match("\s*[0-9]+\s*", cena):
+            items.append([nazev, cena + ' Kč'])
 
-    return items
-
-def return_date(soup):
-    #b = ""
-    b = soup.find("div", { "class": "tmi-group-name bold fontsize3 pb5 bb" }).text.strip()
-    #print(b)
-    return(b)
+    if items:
+      date = today
+    return(items, date)
 
 def debug_print(date, menu):
     print(date)
@@ -78,8 +73,8 @@ if __name__ == "__main__":
 
     bs = prepare_bs(file)
 
-    date = return_date(bs)
-    menu_list = return_menu(bs)
-    # lol()
+    #date = return_date(bs)
+    #menu_list = return_menu(bs)
+    menu_list, date = return_menu(bs)
 
     print(date, menu_list)
