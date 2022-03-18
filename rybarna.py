@@ -31,7 +31,7 @@ def return_menu(soup):
     for item in a:
         #print(item)
         text = item.text
-        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9\/]+)$", text)
+        match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9\/]+)[\s\(\)L]*$", text)
         if match is not None:
             arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
             items.append(arr)
@@ -45,7 +45,7 @@ def return_menu(soup):
         for item in a:
             # print(item)
             text = item.text
-            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9]{2,3})$", text)
+            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-\{\}0-9\.]+)[\s]+([0-9]{2,3})[\s\(\)L]*$", text)
             if match is not None:
                 arr = [match.group(1).strip(), match.group(2).strip() + " Kč"]
                 items.append(arr)
