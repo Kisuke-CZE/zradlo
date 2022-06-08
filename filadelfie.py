@@ -11,22 +11,22 @@ locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
     # return "http://officefood.cz/wp-content/uploads/filadelfie.pdf"
-    return "https://www.cantina-lafresca.cz/menu/brumlovka"
+    url = "https://www.cantina-lafresca.cz/menu/brumlovka"
     print("Zjistuji URL menu")
-    response = requests.get(get_url(), timeout=6)
+    response = requests.get(url, timeout=6)
     if response.status_code != 200:
         raise requests.RequestException("Error: Lafresca response error")
     html = response.text
     bs = BeautifulSoup(html, "html.parser")
     doc_url = "https://www.cantina-lafresca.cz" + bs.find("a", {"title": "Zobrazit menu"})['href']
-    print(doc_url)
+    # print(doc_url)
     return doc_url
 
 def get_file():
 
 
     print("Stahuji menu")
-    pdf_stream = requests.get(get_url, stream=True, timeout=6)
+    pdf_stream = requests.get(get_url(), stream=True, timeout=6)
     tmp_fd,tmp_path = tempfile.mkstemp()
     with open(tmp_path, "wb") as f:
       for chunk in pdf_stream.iter_content(chunk_size=1024):
@@ -62,7 +62,8 @@ def debug_print(date, menu):
 def result():
     lokalita = "brumlovka"
     try:
-        page = get_file()
+        #page = get_file()
+        page = ''
         date, menu_list = return_menu(page)
         nazev = get_name()
         url = get_url()
