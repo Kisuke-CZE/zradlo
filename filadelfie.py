@@ -2,7 +2,7 @@
 # coding=utf-8
 # VRTULE
 
-import requests, os, re, tempfile, time, locale
+import requests, os, re, tempfile, time, locale, pdfplumber
 
 from bs4 import BeautifulSoup
 from subprocess import check_output
@@ -22,36 +22,51 @@ def get_url():
     # print(doc_url)
     return doc_url
 
-def get_file():
+def get_content():
 
 
     print("Stahuji menu")
     pdf_stream = requests.get(get_url(), stream=True, timeout=6)
-    tmp_fd,tmp_path = tempfile.mkstemp()
+    #tmp_fd,tmp_path = tempfile.mkstemp()
+    tmp_fd,tmp_path = tempfile.mkstemp(suffix = '.pdf')
     with open(tmp_path, "wb") as f:
       for chunk in pdf_stream.iter_content(chunk_size=1024):
         f.write(chunk)
     os.close(tmp_fd)
 
-    #print("menu stazeno, prevadim na text")
-    #antiword = check_output(["pdftotext", "-layout", tmp_path, "-"]).decode("utf8")
-    #antiword = check_output(["pdftotext", "-table", tmp_path, "-"]).decode("utf8")
-    print(antiword)
+    with pdfplumber.open(tmp_path) as pdf_menu:
+      table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_tolerance": 30})
+
     os.remove(tmp_path)
-    print("prevedeno na text")
-    return antiword
+    print("prevedeno na tabulky")
+    # print(table)
+    return table
 
 def get_name():
     return "La Fresca Filadelfie"
 
-def return_menu(antiword):
+def return_menu(menu):
     # datum
-    today = time.strftime("%A").upper()
+    today = time.strftime("%A %d.%m.%Y")
+    #print(today)
     items = []
-    # date = "???"
-    date = today
-    items.append(['Menu se nedari rozparsovat - zatim jen odkaz', '∞ Kč'])
-    # print(antiword.splitlines())
+    #items.append(['Menu se nedari rozparsovat - zatim jen odkaz', '∞ Kč'])
+
+    cellnum=0
+    for menuday in menu[0]:
+      if menuday.replace('\n', ' ') == today:
+        # print(today)
+        date = today
+        break
+      cellnum+=1
+
+    menulength=(len(menu))
+    for row in range(1, menulength):
+      jidlo = menu[row][cellnum]
+      cena = menu[row][0].split('\n')[1]
+      # print(cena)
+      items.append([jidlo, cena])
+
 
     return (date, items)
 
@@ -63,7 +78,7 @@ def result():
     lokalita = "brumlovka"
     try:
         #page = get_file()
-        page = ''
+        page = get_content()
         date, menu_list = return_menu(page)
         nazev = get_name()
         url = get_url()
@@ -79,8 +94,8 @@ def result():
     os.remove(TMP)
 
 if __name__ == "__main__":
-    # page = get_file()
-    page = ''
+    page = get_content()
+    # page = ''
     date, menu_list = return_menu(page)
     debug_print(date, menu_list)
     #print(result())

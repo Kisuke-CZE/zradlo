@@ -2,12 +2,12 @@
 ### Stránka pro agregaci jídelníčku poblíž ulic Argentinská, Dělnická, Tusarova, ...
 
 ## Instalace
-* Vyžaduje python3, flask, flask-cache, BeautifulSoup, antiword, apache2 a nastavení z http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
+* Vyžaduje python3, flask, flask-cache, BeautifulSoup, antiword, apache2, pdfplumber a nastavení z http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 ```shell
 $ apt install python3 python3-pip antiword poppler-utils # deb
 ```
 ```shell
-$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2 Flask-Caching
+$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2 Flask-Caching pdfplumber
 ```
 ```shell
 $ apt install libapache2-mod-wsgi
