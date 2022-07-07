@@ -58,11 +58,12 @@ def return_menu(antiword):
             date = match_date.group(1)
             published = True
             prev_match = True
-        elif published and not item.strip() and prev_match:
-            prev_match = False
-            continue
-            #break
-        elif published and not item.strip() and not prev_match:
+        #elif published and not item.strip() and prev_match:
+        #    prev_match = False
+        #    continue
+        #elif published and not item.strip() and not prev_match:
+        #    break
+        elif published and not item.strip():
             break
         elif not match:
             prev_match = False
