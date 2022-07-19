@@ -35,11 +35,18 @@ def get_content():
     os.close(tmp_fd)
 
     with pdfplumber.open(tmp_path) as pdf_menu:
-      table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_tolerance": 30})
+      #table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_tolerance": 30})
+      table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_y_tolerance": 30, "join_x_tolerance": 30, "snap_tolerance": 10})
 
     os.remove(tmp_path)
     print("prevedeno na tabulky")
-    # print(table)
+
+    # SOME DEBUGGING
+    #print(table)
+    #import pandas as pd
+    #pd.set_option('display.max_columns', None)
+    #print(pd.DataFrame(table))
+
     return table
 
 def get_name():
@@ -62,8 +69,11 @@ def return_menu(menu):
 
     menulength=(len(menu))
     for row in range(1, menulength):
-      jidlo = menu[row][cellnum]
-      cena = menu[row][0].split('\n')[1]
+      #print(menu[row][cellnum])
+      #print(menu[row][0])
+      jidlo = menu[row][cellnum].split('A:')[0]
+      #cena = menu[row][0].split('\n')[1]
+      cena = menu[row][0].split('\n')[-1]
       # print(cena)
       items.append([jidlo, cena])
 
