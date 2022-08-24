@@ -4,10 +4,10 @@
 ## Instalace
 * Vyžaduje python3, flask, flask-cache, BeautifulSoup, antiword, apache2, pdfplumber a nastavení z http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
 ```shell
-$ apt install python3 python3-pip antiword poppler-utils # deb
+$ apt install python3 python3-pip antiword poppler-utils python3-opencv tesseract-ocr tesseract-ocr-ces # deb
 ```
 ```shell
-$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2 Flask-Caching pdfplumber
+$ pip3 install flask Flask-Cache beautifulsoup4 lxml Jinja2 Flask-Caching pdfplumber pytesseract
 ```
 ```shell
 $ apt install libapache2-mod-wsgi
