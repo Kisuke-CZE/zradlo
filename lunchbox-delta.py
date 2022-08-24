@@ -2,7 +2,7 @@
 # coding=utf-8
 # VRTULE
 
-import requests, os, re, tempfile, time, locale, pdfplumber
+import requests, os, re, tempfile, time, locale
 
 from bs4 import BeautifulSoup
 import cv2
