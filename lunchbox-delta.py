@@ -90,10 +90,14 @@ def return_menu(menu):
     for item in menutext.splitlines():
         #print(item)
         match = re.match("([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+).*\s+([0-9]{2,3}\s+Kč)", item)
-        if match and published:
+        match2 = re.match(".*\s+([0-9]{2,3}\s+Kč)", item)
+        if (match or match2) and published:
             #print("Match")
-            if previous:
+            if previous and match:
                 arr = [previous + " " + match.group(1).strip(), match.group(2).strip()]
+                previous = ""
+            elif previous and match2:
+                arr = [previous , match2.group(1).strip()]
                 previous = ""
             else:
                 arr = [match.group(1).strip(), match.group(2).strip()]
@@ -109,8 +113,6 @@ def return_menu(menu):
             again = re.match("([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+)", item)
             if again:
                 previous = again.group(1).strip()
-                #print(item)
-                #print("Match")
             else:
                 previous = ""
                 #print("Blank")
