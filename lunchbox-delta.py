@@ -72,7 +72,7 @@ def return_menu(menu):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    tesseract_config = r'--oem 3 --psm 3'
+    tesseract_config = r'--oem 3 --psm 4'
     menutext = pytesseract.image_to_string(img_inverted, lang="ces", config=tesseract_config)
     #print(menutext)
     os.remove(tmp_path)
@@ -99,8 +99,11 @@ def return_menu(menu):
             elif previous and match2:
                 arr = [previous , match2.group(1).strip()]
                 previous = ""
-            else:
+            #else:
+            elif match:
                 arr = [match.group(1).strip(), match.group(2).strip()]
+            #elif match2:
+            #    arr = [match2.group(1).strip(), match2.group(2).strip()]
             items.append(arr)
         elif not published and item.strip() == today:
             #print(item)
@@ -113,6 +116,8 @@ def return_menu(menu):
             again = re.match("([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+)", item)
             if again:
                 previous = again.group(1).strip()
+            elif item.strip() == "":
+                next
             else:
                 previous = ""
                 #print("Blank")
