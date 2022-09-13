@@ -43,7 +43,7 @@ def return_menu(antiword):
 
     for item in antiword.splitlines():
         match = re.match("\s*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ \t,\-–“\(\)´\/]+)[\s\n]+([0-9]+)\s+Kč?\s*", item)
-        #print(item)
+        # print(item)
         match_date = re.match("(" + today + ").*$", item.strip())
         if match and published:
             # print(item)
