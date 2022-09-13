@@ -72,7 +72,8 @@ def return_menu(menu):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    tesseract_config = r'--oem 3 --psm 4'
+    #tesseract_config = r'--oem 3 --psm 4'
+    tesseract_config = r'--oem 3 --psm 3'
     menutext = pytesseract.image_to_string(img_inverted, lang="ces", config=tesseract_config)
     #print(menutext)
     os.remove(tmp_path)
