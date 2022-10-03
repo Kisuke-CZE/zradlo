@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import requests, sys, re
+import requests, sys, re, time, locale
 # from datetime import datetime
 from bs4 import BeautifulSoup
+
+locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
     return "https://turnovskapivnice.cz/nase-podniky/brumlovka"
@@ -25,26 +27,47 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
 
+    dow = time.strftime("%A").upper()
+    fulldate = time.strftime("%-d.%-m.%Y").upper()
+    #print(today)
+    tablenum=1
+
     a = soup.find("div", { "class": "daily-menu" })
     #print(a)
     #date = a.find("h3").find("strong").text.strip()
-    date = a.find_all("h4")[1].text.strip()
-    # print(date)
-    zradla = a.find_all("tr")
+    dates = a.find_all("h4")
+    #print(dates)
+    for index,item in enumerate(dates):
+        #print(item.text)
+        datematch = re.match(dow + "\s+" + fulldate, item.text)
+        if datematch:
+            tablenum = index
+
+
+    #print(tablenum)
+    #zradla = a.find_all("tr")
     #print (zradla)
+    date = dates[tablenum].text
+    tables = a.find_all("table")
+    lasttab = 4 * tablenum
     items = []
-    for item in zradla:
-        # print(item)
-        if item.text:
-            text = item.text
-            #print(text)
-            arr = []
-            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
-            if match is not None:
-                arr = [match.group(1).strip(), match.group(2).strip()]
-            else:
-                continue
-            items.append(arr)
+    for table in range(lasttab-3, lasttab):
+        #print(table)
+        zradla = tables[table].find_all("tr")
+        #print(zradla)
+        for item in zradla:
+            #print(item)
+
+            if item.text:
+                text = item.text
+                #print(text)
+                arr = []
+                match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
+                if match is not None:
+                    arr = [match.group(1).strip(), match.group(2).strip()]
+                else:
+                    continue
+                items.append(arr)
 
     return(items, date)
 
