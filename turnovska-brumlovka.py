@@ -51,7 +51,7 @@ def return_menu(soup):
     tables = a.find_all("table")
     lasttab = 4 * tablenum
     items = []
-    for table in range(lasttab-3, lasttab):
+    for table in range(lasttab-4, lasttab):
         #print(table)
         zradla = tables[table].find_all("tr")
         #print(zradla)
