@@ -72,8 +72,8 @@ def return_menu(menu):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    #tesseract_config = r'--oem 3 --psm 4'
-    tesseract_config = r'--oem 3 --psm 3'
+    tesseract_config = r'--oem 3 --psm 4'
+    #tesseract_config = r'--oem 3 --psm 3'
     menutext = pytesseract.image_to_string(img_inverted, lang="ces", config=tesseract_config)
     #print(menutext)
     os.remove(tmp_path)
@@ -90,7 +90,7 @@ def return_menu(menu):
     date = "???"
     for item in menutext.splitlines():
         #print(item)
-        match = re.match("([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+).*\s+([0-9]{2,3}\s+Kč)", item)
+        match = re.match("^([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+).*\s+([0-9]{2,3}\s+Kč)", item)
         match2 = re.match(".*\s+([0-9]{2,3}\s+Kč)", item)
         if (match or match2) and published:
             #print("Match")
