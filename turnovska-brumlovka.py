@@ -28,13 +28,13 @@ def prepare_bs(kantyna):
 def return_menu(soup):
 
     dow = time.strftime("%A").upper()
-    fulldate = time.strftime("%-d.%-m.%Y").upper()
-    #print(today)
+    fulldate = time.strftime("%-d. %-m. %Y").upper()
+    #print(dow + " " + fulldate)
     tablenum=1
 
     a = soup.find("div", { "class": "daily-menu" })
     #print(a)
-    #date = a.find("h3").find("strong").text.strip()
+
     dates = a.find_all("h4")
     #print(dates)
     for index,item in enumerate(dates):
@@ -42,7 +42,6 @@ def return_menu(soup):
         datematch = re.match(dow + "\s+" + fulldate, item.text)
         if datematch:
             tablenum = index
-
 
     #print(tablenum)
     #zradla = a.find_all("tr")
