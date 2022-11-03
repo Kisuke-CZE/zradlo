@@ -32,8 +32,8 @@ def return_menu(soup):
     #print(dow + " " + fulldate)
     tablenum=1
 
-    a = soup.find("div", { "class": "daily-menu" })
-    #print(a)
+    a = soup.find("div", { "class": "daily-menu" }).div.find_next_sibling("div").div.div
+    #print(a.prettify())
 
     dates = a.find_all("h4")
     #print(dates)
@@ -47,9 +47,12 @@ def return_menu(soup):
     #zradla = a.find_all("tr")
     #print (zradla)
     date = dates[tablenum].text
-    tables = a.find_all("table")
+    tables = a.find_all("table", recursive=False)
+    #print(tables)
+    #print(a)
     lasttab = 4 * tablenum
     items = []
+    matchzradlo = "([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)"
     for table in range(lasttab-4, lasttab):
         #print(table)
         zradla = tables[table].find_all("tr")
@@ -57,11 +60,31 @@ def return_menu(soup):
         for item in zradla:
             #print(item)
 
-            if item.text:
+            subtables = item.find_all("table")
+            #print(subtables)
+            if subtables:
+                #print("Subtable found")
+                for subtable in subtables:
+                    #print(subtable)
+                    subzradla = subtable.find_all("tr")
+                    #print(subzradla)
+                    for subitem in subzradla:
+                        subtext = subitem.text
+                        #print(subtext)
+                        arr = []
+                        submatch = re.match(matchzradlo, subtext)
+                        if submatch is not None:
+                            arr = [submatch.group(1).strip(), submatch.group(2).strip()]
+                            items.append(arr)
+                        else:
+                            continue
+
+            elif item.text:
                 text = item.text
                 #print(text)
                 arr = []
-                match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
+                #match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)", text)
+                match = re.match(matchzradlo, text)
                 if match is not None:
                     arr = [match.group(1).strip(), match.group(2).strip()]
                 else:
