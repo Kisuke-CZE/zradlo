@@ -58,6 +58,7 @@ def return_menu(menu):
     img = cv2.imread(tmp_path)
 
     img_darkened = change_brightness(img, value=-35) #decreases
+    #img_darkened = change_brightness(img, value=-25) #decreases
 
     #cv2.imshow('Black white image', img_darkened)
     #cv2.waitKey(0)
@@ -90,7 +91,7 @@ def return_menu(menu):
     date = "???"
     for item in menutext.splitlines():
         #print(item)
-        match = re.match("^([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+).*\s+([0-9]{2,3}\s+Kč)", item)
+        match = re.match("^[«\+\*]?([\w\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ,\-\/]+).*\s+([0-9]{2,3}\s+Kč)", item)
         match2 = re.match(".*\s+([0-9]{2,3}\s+Kč)", item)
         if (match or match2) and published:
             #print("Match")
