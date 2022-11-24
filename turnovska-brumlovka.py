@@ -29,6 +29,9 @@ def return_menu(soup):
 
     dow = time.strftime("%A").upper()
     fulldate = time.strftime("%-d. %-m. %Y").upper()
+    #print(dow + " " + fulldate)
+    #dow = "PONDĚLÍ"
+    #fulldate = "21. 11. 2022"
     tablenum=1
 
     a = soup.find("div", { "class": "daily-menu" }).div.find_next_sibling("div").div.div
@@ -43,8 +46,8 @@ def return_menu(soup):
     tables = a.find_all("table", recursive=False)
     lasttab = 4 * tablenum
     items = []
-    matchzradlo = "([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*Kč)"
-    for table in range(lasttab-3, lasttab+1):
+    matchzradlo = "([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*(Kč|,-))"
+    for table in range(lasttab-4, lasttab):
         #print(tables[table])
         zradla = tables[table].tbody.find_all("tr", recursive=False)
         for item in zradla:
