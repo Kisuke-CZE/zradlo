@@ -18,14 +18,21 @@ def get_url():
         raise requests.RequestException("Error: Lafresca response error")
     html = response.text
     bs = BeautifulSoup(html, "html.parser")
-    doc_url = "https://www.cantina-lafresca.cz" + bs.find("a", {"title": "Zobrazit menu"})['href']
-    # print(doc_url)
-    return doc_url
+    button_url = bs.find("a", {"title": "Zobrazit menu"})
+    if button_url:
+      doc_url = "https://www.cantina-lafresca.cz" + button_url['href']
+      return doc_url
+    else:
+      return None
 
 def get_content():
 
 
     print("Stahuji menu")
+    url=get_url()
+    if not url:
+        print("Nelze ziskat URL menu")
+        return None
     pdf_stream = requests.get(get_url(), stream=True, timeout=6)
     #tmp_fd,tmp_path = tempfile.mkstemp()
     tmp_fd,tmp_path = tempfile.mkstemp(suffix = '.pdf')
