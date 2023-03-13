@@ -12,8 +12,7 @@ from datetime import datetime, timedelta
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    #return "https://www.sfood.cz/delta"
-    return "https://sfood.cz/jidelni-listky/jidelni-listek-delta"
+    return "https://sfood.cz/jidelni-listky/jidelni-listek-alpha"
 
 def get_content():
     kantyna = requests.get(get_url())
@@ -29,7 +28,7 @@ def prepare_bs(kantyna):
         return "Error"
 
 def get_name():
-    return "Lunchbox Delta"
+    return "Lunchbox Alpha"
 
 def change_brightness(img, value=30):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
