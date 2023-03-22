@@ -27,7 +27,9 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
 
-    dow = time.strftime("%A").upper()
+    #dow = time.strftime("%A").upper()
+    #dow = time.strftime("%A").lower()
+    dow = time.strftime("%A")
     fulldate = time.strftime("%-d. %-m. %Y").upper()
     #print(dow + " " + fulldate)
     #dow = "PONDĚLÍ"
@@ -38,8 +40,9 @@ def return_menu(soup):
 
     dates = a.find_all("h4")
     for index,item in enumerate(dates):
-        datematch = re.match(dow + "\s+" + fulldate, item.text)
+        datematch = re.match(dow + "\s+" + fulldate, item.text, re.IGNORECASE)
         if datematch:
+            #print(item.text)
             tablenum = index
 
     date = dates[tablenum].text
