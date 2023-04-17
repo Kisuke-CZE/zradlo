@@ -47,7 +47,8 @@ def return_menu(soup):
       jidlotext = line[column].text.strip()
       jidlo = re.sub(r'^A: [0-9\,]+', '', jidlotext).strip()
       # print (jidlo)
-      items.append(jidlo)
+      arr = [ jidlo, '-' ]
+      items.append(arr)
     
 
     return (date, items)
