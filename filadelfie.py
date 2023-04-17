@@ -2,7 +2,7 @@
 # coding=utf-8
 # VRTULE
 
-import requests, os, re, tempfile, time, locale, pdfplumber
+import requests, os, re, tempfile, time, locale
 
 from bs4 import BeautifulSoup
 from subprocess import check_output
@@ -10,80 +10,45 @@ from subprocess import check_output
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    # return "http://officefood.cz/wp-content/uploads/filadelfie.pdf"
-    url = "https://www.cantina-lafresca.cz/menu/brumlovka"
-    print("Zjistuji URL menu")
-    response = requests.get(url, timeout=6)
-    if response.status_code != 200:
-        raise requests.RequestException("Error: Lafresca response error")
-    html = response.text
-    bs = BeautifulSoup(html, "html.parser")
-    button_url = bs.find("a", {"title": "Zobrazit menu"})
-    if button_url:
-      doc_url = "https://www.cantina-lafresca.cz" + button_url['href']
-      return doc_url
-    else:
-      return None
+    return "https://www.cantina-lafresca.cz/menu/brumlovka"
 
 def get_content():
-
-
     print("Stahuji menu")
-    url=get_url()
-    if not url:
-        print("Nelze ziskat URL menu")
-        return None
-    pdf_stream = requests.get(get_url(), stream=True, timeout=6)
-    #tmp_fd,tmp_path = tempfile.mkstemp()
-    tmp_fd,tmp_path = tempfile.mkstemp(suffix = '.pdf')
-    with open(tmp_path, "wb") as f:
-      for chunk in pdf_stream.iter_content(chunk_size=1024):
-        f.write(chunk)
-    os.close(tmp_fd)
-
-    with pdfplumber.open(tmp_path) as pdf_menu:
-      #table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_tolerance": 30})
-      table = pdf_menu.pages[0].extract_table(table_settings={"vertical_strategy": "lines", "horizontal_strategy": "lines", "join_y_tolerance": 30, "join_x_tolerance": 30, "snap_tolerance": 10})
-
-    os.remove(tmp_path)
-    print("prevedeno na tabulky")
-
-    # SOME DEBUGGING
-    #print(table)
-    #import pandas as pd
-    #pd.set_option('display.max_columns', None)
-    #print(pd.DataFrame(table))
-
-    return table
-
+    kantyna = requests.get(get_url())
+    if kantyna is not None and kantyna.status_code == 200:
+        html = kantyna.content
+        soup = BeautifulSoup(html.decode('utf-8', 'ignore'), 'html.parser')
+        return soup
+    
 def get_name():
     return "La Fresca Filadelfie"
 
-def return_menu(menu):
+def return_menu(soup):
     # datum
-    today = time.strftime("%A %d.%m.%Y")
+    today = time.strftime("%A %d. %-m. %Y").lower()
     #print(today)
     items = []
-    #items.append(['Menu se nedari rozparsovat - zatim jen odkaz', '∞ Kč'])
-
-    cellnum=0
-    for menuday in menu[0]:
-      if menuday.replace('\n', ' ') == today:
-        # print(today)
-        date = today
+    date = ''
+    column = 0
+    table = soup.find("div", {"class": "table-responsive"}).find_all("tr")
+    #print(table[0])
+    days = table[0].find_all("th")
+    for idx, day in enumerate(days):
+      if day.text == today:
+        date = day.text
+        column = idx
         break
-      cellnum+=1
-
-    menulength=(len(menu))
-    for row in range(1, menulength):
-      #print(menu[row][cellnum])
-      #print(menu[row][0])
-      jidlo = menu[row][cellnum].split('A:')[0]
-      #cena = menu[row][0].split('\n')[1]
-      cena = menu[row][0].split('\n')[-1]
-      # print(cena)
-      items.append([jidlo, cena])
-
+    #print(date, idx)
+    #print(table)
+    
+    for row in table[1:]:
+      line = row.find_all("td")
+      #jidlo = line[column].text.strip()
+      jidlotext = line[column].text.strip()
+      jidlo = re.sub(r'^A: [0-9\,]+', '', jidlotext).strip()
+      # print (jidlo)
+      items.append(jidlo)
+    
 
     return (date, items)
 
