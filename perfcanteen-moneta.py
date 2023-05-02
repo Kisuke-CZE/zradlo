@@ -40,10 +40,12 @@ def return_menu(antiword):
     prev_match = False
     date = "???"
 
-    # print(antiword)
+    #print(antiword)
     for item in antiword.splitlines():
         match = re.match("\s*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ \t,\-–“\(\)´\/]+)[\s\n]+([0-9]+)\s+Kč?\s*", item)
-        print(item)
+        #print(item)
+        #print(published)
+        #print(prev_match)
         match_date = re.match("(" + today + ").*$", item.strip())
         if match and published:
             # print(item)
@@ -61,6 +63,8 @@ def return_menu(antiword):
         elif published and not item.strip() and prev_match:
             prev_match = False
             continue
+        elif published and not prev_match:
+            break
         #elif published and not item.strip() and not prev_match:
         #    break
         elif published and not item.strip():
@@ -68,7 +72,7 @@ def return_menu(antiword):
         elif not match:
             prev_match = False
             continue
-
+        
     return (date, items)
 
 def debug_print(date, menu):
