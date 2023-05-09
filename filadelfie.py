@@ -25,7 +25,7 @@ def get_name():
 
 def return_menu(soup):
     # datum
-    today = time.strftime("%A %d. %-m. %Y").lower()
+    today = time.strftime("%A %-d. %-m. %Y").lower()
     #print(today)
     items = []
     date = ''
@@ -34,6 +34,7 @@ def return_menu(soup):
     #print(table[0])
     days = table[0].find_all("th")
     for idx, day in enumerate(days):
+      #print(day.text)
       if day.text == today:
         date = day.text
         column = idx
