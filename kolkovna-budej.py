@@ -28,14 +28,14 @@ def return_menu(soup):
     meme = soup.find("div", { "class": "op-menu-day active" })
     # print(meme)
     date = meme.find("h3").text
-    matchzradlo = "^\s+([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\)\,\-\+]+) \|"
+    matchzradlo = "^\s+([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\),\-\+]+)"
     matchcena = "^([0-9]+ Kč)"
     prevmatch = False
     nazev = ""
     cena = ""
     items = []
     for line in meme.text.splitlines():
-      #print(line)
+      print(line)
       zradlo = re.match(matchzradlo, line)
       if zradlo:
         nazev = zradlo.group(1).strip()
