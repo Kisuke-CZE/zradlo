@@ -37,6 +37,7 @@ def return_menu(soup):
     tablenum=1
 
     a = soup.find("div", { "class": "daily-menu" }).div.find_next_sibling("div").div.div
+    #print(a)
 
     dates = a.find_all("h4")
     for index,item in enumerate(dates):
@@ -47,11 +48,11 @@ def return_menu(soup):
 
     date = dates[tablenum].text
     tables = a.find_all("table", recursive=False)
-    lasttab = 4 * tablenum
+    #lasttab = 4 * tablenum
+    lasttab = 5 * tablenum
     items = []
-    matchzradlo = "([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*(Kč|,-))"
+    matchzradlo = "([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ„“\"\(\)\,\-\+]+)[\s]+([0-9]{2,3}[\s]*(Kč|,-))"
     for table in range(lasttab-4, lasttab):
-        #print(tables[table])
         zradla = tables[table].tbody.find_all("tr", recursive=False)
         for item in zradla:
             #print(item)
