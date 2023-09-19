@@ -29,6 +29,7 @@ def prepare_bs(kantyna):
 def return_menu(soup):
 
     a = soup.find("div", { "class": "welcome" }).find_all("span")
+    #print(a)
     date = "???"
     today = time.strftime("%A %-d.%-m.%Y")
     published = False
@@ -36,8 +37,10 @@ def return_menu(soup):
     items = []
     for item in a:
         #print(item.text)
-        matchjidlo = re.match("^[0-9]\.[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-        matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
+        #matchjidlo = re.match("^[0-9]\.[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
+        matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
+        # matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
+        matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
         if item.text.strip() == today:
             date = item.text.strip()
             published = True
