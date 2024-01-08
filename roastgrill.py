@@ -28,31 +28,53 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
 
-    a = soup.find("div", { "class": "welcome" }).find_all("span")
+    #a = soup.find("div", { "class": "welcome" }).find_all("span")
+    a = soup.find("div", { "class": "welcome" }).find_all("p")
+    
     #print(a)
     date = "???"
     today = time.strftime("%A %-d.%-m.%Y")
-    published = False
-    #print(today)
-    items = []
     for item in a:
-        #print(item.text)
-        #matchjidlo = re.match("^[0-9]\.[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-        matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-        # matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
-        matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
         if item.text.strip() == today:
             date = item.text.strip()
-            published = True
-            continue
-        elif published and matchpolevka:
+            break
+    #published = False
+    #print(today)
+    
+    items = []    
+    a = soup.find("div", { "class": "welcome" }).find_all("li")
+    for item in a:
+        #print(item.text)
+        matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
+        matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
+        if matchpolevka:
             arr = [matchpolevka.group(1).strip(), matchpolevka.group(2).strip()]
             items.append(arr)
             continue
-        elif published and matchjidlo:
+        elif matchjidlo:
             arr = [matchjidlo.group(1).strip(), matchjidlo.group(2).strip()]
             items.append(arr)
             continue
+    
+   
+    #for item in a:
+    #    print(item.text)
+    #    #matchjidlo = re.match("^[0-9]\.[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
+    #    matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
+    #    # matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
+    #    matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
+    #    if item.text.strip() == today:
+    #        date = item.text.strip()
+    #        published = True
+    #        continue
+    #    elif published and matchpolevka:
+    #        arr = [matchpolevka.group(1).strip(), matchpolevka.group(2).strip()]
+    #        items.append(arr)
+    #        continue
+    #    elif published and matchjidlo:
+    #        arr = [matchjidlo.group(1).strip(), matchjidlo.group(2).strip()]
+    #        items.append(arr)
+    #        continue
     return(items, date)
 
 
