@@ -9,7 +9,7 @@ locale.setlocale(locale.LC_ALL,'')
 def get_url():
     return "https://goodlunch.cz/kantyny/o2"
 
-def get_content():
+def get_content():    
     page = requests.get(get_url())
     page.encoding = 'UTF-8'
     source = prepare_bs(page)
@@ -21,7 +21,7 @@ def get_content():
     return kantyna
 
 def prepare_bs(kantyna):
-    if kantyna is not None and kantyna.status_code == 200:
+    if kantyna is not None:
         html = kantyna.text
         soup = BeautifulSoup(html, 'html.parser')
         return soup

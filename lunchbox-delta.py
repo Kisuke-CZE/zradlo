@@ -21,7 +21,7 @@ def get_content():
     return kantyna
 
 def prepare_bs(kantyna):
-    if kantyna is not None and kantyna.status_code == 200:
+    if kantyna is not None:
         html = kantyna.text
         soup = BeautifulSoup(html, 'html.parser')
         return soup
