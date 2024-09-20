@@ -13,7 +13,8 @@ def get_name():
     return "Roast & Grill Filadelfie"
 
 def get_file():
-    kantyna = requests.get(get_url())
+    user_agent = {'User-agent': 'Mozilla/5.0'}
+    kantyna = requests.get(get_url(), headers = user_agent)
     kantyna.encoding = 'UTF-8'
     return kantyna
 
@@ -28,53 +29,18 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
 
-    #a = soup.find("div", { "class": "welcome" }).find_all("span")
-    a = soup.find("div", { "class": "welcome" }).find_all("p")
-    
-    #print(a)
-    date = "???"
-    today = time.strftime("%A %-d.%-m.%Y")
-    for item in a:
-        if item.text.strip() == today:
-            date = item.text.strip()
-            break
-    #published = False
-    #print(today)
-    
-    items = []    
-    a = soup.find("div", { "class": "welcome" }).find_all("li")
-    for item in a:
-        #print(item.text)
-        matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-        matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
-        if matchpolevka:
-            arr = [matchpolevka.group(1).strip(), matchpolevka.group(2).strip()]
-            items.append(arr)
-            continue
-        elif matchjidlo:
-            arr = [matchjidlo.group(1).strip(), matchjidlo.group(2).strip()]
-            items.append(arr)
-            continue
-    
-   
-    #for item in a:
-    #    print(item.text)
-    #    #matchjidlo = re.match("^[0-9]\.[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-    #    matchjidlo = re.match("^[\s]*([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč)", item.text.strip())
-    #    # matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+k jídlu 30\s?Kč)", item.text.strip())
-    #    matchpolevka = re.match("^Polévka dne:[\s ]+([A-Za-z0-9ěščřžýáíéůúťňóöďŤĚŠČŘŽŇÝÁÍÉÚŮÓÖĎ/ ,\-–“\(\)´]+)[\s ]+([0-9]+\s?Kč[\s ]+/[\s ]+bez jídla [0-9]+\s?Kč)", item.text.strip())
-    #    if item.text.strip() == today:
-    #        date = item.text.strip()
-    #        published = True
-    #        continue
-    #    elif published and matchpolevka:
-    #        arr = [matchpolevka.group(1).strip(), matchpolevka.group(2).strip()]
-    #        items.append(arr)
-    #        continue
-    #    elif published and matchjidlo:
-    #        arr = [matchjidlo.group(1).strip(), matchjidlo.group(2).strip()]
-    #        items.append(arr)
-    #        continue
+    date = soup.find("div", { "class": "t-title_xxl" }).text
+    if date is None:
+      date = "???"
+    items = []
+    zradla = soup.find_all("div", {"class" : re.compile('.*pricelist-item__row.*')})
+    for zradlo in zradla:
+      #print(zradlo)
+      nazev = zradlo.find("div", {"class" : re.compile('.*pricelist-item__title')})
+      cena = zradlo.find("div", {"class" : re.compile('.*pricelist-item__price')})
+      if ( nazev is None ) or ( cena is None ):
+        continue
+      items.append([nazev.text.strip(), cena.text.strip()])
     return(items, date)
 
 
