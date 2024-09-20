@@ -25,8 +25,9 @@ def prepare_bs(kantyna):
         return "Error"
 
 def return_menu(soup):
-    date = soup.find("div", { "class": "row p-4 border-bottom"}).find("span", {"class": "pl-2"}).text
-    a = soup.find("div", { "class": "container mt-4 mb-4" }).find_all("div", { "class": "row"})
+    date = soup.find("div", { "class": "row p-4 border-bottom"}).find("span", {"class": "pl-2"}).text.strip()
+    #a = soup.find("div", { "class": "container mt-4 mb-4" }).find_all("div", { "class": "row"})
+    a = soup.find_all("div", { "class": "container" })[3].find_all("div", { "class": "row"})
     items = []
     for item in a:
       #print(item)
