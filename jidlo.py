@@ -34,7 +34,6 @@ modules = [ "kozlovna",
             "nesmysl",
             "kolkovna-budej",
             "nakopecku",
-            "melina",
             "antal",
             "rybarna"
              ]
