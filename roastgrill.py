@@ -7,10 +7,10 @@ from bs4 import BeautifulSoup
 locale.setlocale(locale.LC_ALL,'')
 
 def get_url():
-    return "https://www.roastgrill.cz/"
+    return "https://www.finegrill.cz/"
 
 def get_name():
-    return "Roast & Grill Filadelfie"
+    return "Fine Grill Filadelfie"
 
 def get_file():
     user_agent = {'User-agent': 'Mozilla/5.0'}
