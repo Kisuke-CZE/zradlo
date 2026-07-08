@@ -13,17 +13,7 @@ locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-modules = [ "kozlovna",
-            "kolkovna-artgen",
-            "avion58",
-            "vrtule",
-            "petpenez",
-            "hamburg",
-            "baterka",
-            "jatka78",
-            "kantyna",
-            "lunchbox-gamma",
-            "turnovska-brumlovka",
+modules = [ "lunchbox-gamma",
             "lunchbox-delta",
             "lunchbox-alpha",
             "filadelfie",
