@@ -48,7 +48,7 @@ def return_menu(soup):
             text = item.text
             # print(text)
             arr = []
-            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s]+([0-9]{2,3}[\s]*,-)", text)
+            match = re.match("([\w\d\sěščřžýáíéúůóÓĚŠČŘŽÝÁÍÉÚŮöäëÄÖËťŤ\"\(\)\,\-]+)[\s\.]+([0-9]{2,3}[\s]*,-)", text)
             if match is not None:
                 arr = [match.group(1).strip(), match.group(2).strip()]
             else:
