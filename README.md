@@ -1,4 +1,8 @@
 # Zradlo
+
+>[!WARNING]
+>⚠️ This repository has moved to [codeberg.org/Kisuke-CZE/zradlo](https://codeberg.org/Kisuke-CZE/zradlo)
+
 ### Stránka pro agregaci jídelníčku poblíž ulic Argentinská, Dělnická, Tusarova, ...
 
 ## Instalace
